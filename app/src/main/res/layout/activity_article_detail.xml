@@ -41,11 +41,11 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_gravity="start|end"
                     android:background="#4D8B8888"
                     android:fontFamily="sans-serif"
                     android:lineHeight="2dp"
-                    android:padding="10dp"
+                    android:padding="@dimen/article_padding"
                     android:text=""
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="#fff" />
@@ -55,10 +55,10 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
+                android:layout_gravity="start|end"
                 android:fontFamily="sans-serif"
                 android:lineSpacingExtra="3dp"
-                android:padding="10dp"
+                android:padding="@dimen/article_padding"
                 android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         </LinearLayout>

@@ -53,7 +53,7 @@ public class SelectGradeActivity extends AppCompatActivity {
         if (name.equalsIgnoreCase("student")) {
             grade.setText("Please specify the grade you are in?");
         } else {
-            grade.setText("Which grade is \\n your kid in?");
+            grade.setText("Which grade is\nyour kid in?");
         }
 
         loadGradeData();
