@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/navigation_discussion"
+        android:icon="@drawable/discussion"
+        android:title="Discussion"/>
+
+    <item
+        android:id="@+id/navigation_colleges"
+        android:icon="@drawable/college"
+        android:title="Colleges"/>
+
+    <item
+        android:id="@+id/navigation_course"
+        android:icon="@drawable/courses"
+        android:title="Courses"/>
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/persion"
+        android:title="Profile"/>
+
+</menu>

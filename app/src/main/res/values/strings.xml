@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">College Ninja</string>
+    <string name="title_activity_landing">College Ninja</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_intro_one">IntroOneActivity</string>
+    <string name="action_logout">Logout</string>
+    <string name="set_preferences_message">Set your preferences now to get exclusive access to the latest new age courses and industry updates. connect with peers and professors, and discover exciting career</string>
+    <string name="ok">OK</string>
+
+    <string-array name="array_gender">
+        <item>Select Gender</item>
+        <item>male</item>
+        <item>female</item>
+    </string-array>
+
+    <string-array name="array_city">
+        <item>Select City</item>
+        <item>Bhubaneswar</item>
+    </string-array>
+
+
+    <string-array name="array_Stream">
+        <item>Select Stream</item>
+    </string-array>
+
+    <string-array name="array_status">
+        <item>Select Stream</item>
+    </string-array>
+</resources>

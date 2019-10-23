@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/heading"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="15dp"
+        android:textStyle="bold"
+        android:text="Hey there!"/>
+
+    <TextView
+        android:id="@+id/yn_dialog_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/heading"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="clip_horizontal"
+        android:gravity="start|end"
+        android:text="@string/set_preferences_message"
+        android:textSize="18sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/yndialog"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:layout_below="@+id/yn_dialog_message"
+        android:background="@color/orange"
+        android:text="@string/ok"
+        android:textColor="@color/colorWhite" />
+
+</RelativeLayout>
