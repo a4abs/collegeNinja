@@ -14,6 +14,6 @@
         android:title="logo"
         android:orderInCategory="100"
         android:id="@+id/action_settings"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/group"
         app:showAsAction="always" />
 </menu>

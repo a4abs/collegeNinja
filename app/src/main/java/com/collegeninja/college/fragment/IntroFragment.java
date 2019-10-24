@@ -66,8 +66,11 @@ public class IntroFragment extends Fragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getActivity(),SelectTypeActivity.class);
-                startActivity(i);
+                View newView = view.findViewById(R.id.intro_news);
+                if(newView != null) {
+                    Intent i=new Intent(getActivity(),SelectTypeActivity.class);
+                    startActivity(i);
+                }
             }
         });
 

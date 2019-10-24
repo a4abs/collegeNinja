@@ -241,6 +241,7 @@ public class HomeFragment extends Fragment {
         toppic_arrayList.clear();
 
         String url = "http://collegeninja.fdstech.solutions/api/get_libraries";
+        //String url = "http://collegeninja.fdstech.solutions/api/get_latest_articles";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -256,6 +257,7 @@ public class HomeFragment extends Fragment {
 
                         for(int i = 0; i < jsonArray.length(); i++){
                             JSONObject _jsonObject = jsonArray.getJSONObject(i);
+
                             HashMap<String,String> map = new HashMap<>();
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
