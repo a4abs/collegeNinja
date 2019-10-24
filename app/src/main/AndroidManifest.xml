@@ -22,7 +22,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name="com.collegeninja.college.activity.IntroActivity"></activity>
+        <activity android:name="com.collegeninja.college.activity.ActivityArticleSearch"></activity>
+        <activity android:name="com.collegeninja.college.activity.IntroActivity" />
         <activity
             android:name="com.collegeninja.college.activity.ContactActivity"
             android:screenOrientation="portrait" />

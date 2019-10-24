@@ -70,9 +70,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                 String stream_id = pref.getString("stream_id", null);
                 String user_type = pref.getString("user_type", null);
 
-                Log.i("grade_id :::::: ", "" + grade_id);
-                Log.i("stream_id :::::: ", "" + stream_id);
-                Log.i("user_type :::::: ", "" + user_type);
 
                 dialog = new ProgressDialog(SignUpActivity.this);
 
@@ -93,14 +90,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     private void registrationCall(final String name, final String phone, final String email, final String city_id, final String grade_id, final String stream_id,final String user_type) {
-        Log.i("name :::::: ", "" + name);
-        Log.i("phone :::::: ", "" + phone);
-        Log.i("email :::::: ", "" + email);
-        Log.i("city_id :::::: ", "" + city_id);
-        Log.i("grade_id :::::: ", "" + grade_id);
-        Log.i("stream_id :::::: ", "" + stream_id);
-        Log.i("user_type :::::: ", "" + user_type);
-
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
@@ -109,7 +98,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.i("response :::::: ", "" + response);
 
                 JSONObject jsonObject = null;
                 try {

@@ -1,12 +1,15 @@
 package com.collegeninja.college.activity;
 
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -39,6 +42,7 @@ import com.collegeninja.college.fragment.DiscussionFragment;
 import com.collegeninja.college.fragment.HomeFragment;
 import com.collegeninja.college.fragment.ProfileFragment;
 import com.fdscollege.college.R;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +56,11 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
     String token;
     BottomNavigationView navigation;
     Dialog preferenceDialog;
+    private MaterialSearchView mSearchViewHome;
+    MenuItem searchItem;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +68,19 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
 
         //getting the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("College Ninja");
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
+       /* mSearchViewHome =  (SearchView) findViewById(R.id.search_view);
+        mSearchViewHome.setQueryHint("Search");*/
+
+
+        //mSearchViewHome.showSearch();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(LandingActivity.this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+        //drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -84,6 +98,45 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
         batch = headerLayout.findViewById(R.id.nav_batch);
 
         preferenceDialog = new Dialog(this);
+
+        // Searchview implementation
+
+        mSearchViewHome = findViewById(R.id.search_view);
+        mSearchViewHome.setVoiceSearch(false);
+       // mSearchViewHome.performClick();
+
+        mSearchViewHome.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Do some magic
+                Log.d("Query", "====>"+query);
+                Intent i = new Intent(getApplicationContext(), ActivityArticleSearch.class);
+                i.putExtra("search_text", query);
+                startActivity(i);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Do some magic
+                return false;
+            }
+        });
+
+        mSearchViewHome.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+                searchItem.setVisible(false);
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+                searchItem.setVisible(true);
+            }
+        });
 
         hideSoftKeyboard();
 
@@ -180,7 +233,12 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.landing, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        searchItem = menu.findItem(R.id.action_search);
+        mSearchViewHome.setMenuItem(searchItem);
+        //mSearchViewHome.setIconified
+        //View searchView = item.getActionView();
+        //searchView.setMaxWidth(Integer.MAX_VALUE);
         return true;
     }
 

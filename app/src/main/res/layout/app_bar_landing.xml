@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.collegeninja.college.activity.LandingActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -11,12 +12,35 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <FrameLayout
+            android:id="@+id/toolbar_container"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+                <!--<android.support.v7.widget.SearchView
+                    android:id="@+id/search_view"
+                    style="@style/SearchViewStyle"
+                    app:goIcon="@android:drawable/ic_menu_search"
+                    app:defaultQueryHint="Hello Search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />-->
+                <com.miguelcatalan.materialsearchview.MaterialSearchView
+                    android:id="@+id/search_view"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </android.support.v7.widget.Toolbar>
+        </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>
 
