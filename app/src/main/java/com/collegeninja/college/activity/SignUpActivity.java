@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.collegeninja.college.adapter.GradeAdapter;
 import com.fdscollege.college.R;
 
@@ -35,10 +37,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
+
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Button submit;
     EditText name, phone, email;
-
+    private AwesomeValidation mAwesomeValidation;
     ArrayList<String> arrayList_id = new ArrayList<>();
     ArrayList<String> arrayList_name = new ArrayList<>();
     Spinner city;
@@ -58,31 +62,41 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         city = findViewById(R.id.city);
         city.setOnItemSelectedListener(this);
 
+        mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
+        mAwesomeValidation.setContext(this);
+
+        mAwesomeValidation.addValidation(this, R.id.name, "[a-zA-Z\\s]+", R.string.err_nam);
+        mAwesomeValidation.addValidation(this, R.id.phone,  Patterns.PHONE, R.string.err_phone);
+        mAwesomeValidation.addValidation(this, R.id.email,  android.util.Patterns.EMAIL_ADDRESS, R.string.err_email);
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String _name = name.getText().toString();
-                String _phone = phone.getText().toString();
-                String _email = email.getText().toString();
 
-                SharedPreferences pref = getSharedPreferences("college", 0);
-                String grade_id = pref.getString("grade_id", null);
-                String stream_id = pref.getString("stream_id", null);
-                String user_type = pref.getString("user_type", null);
+                if(mAwesomeValidation.validate()){
+                    String _name = name.getText().toString();
+                    String _phone = phone.getText().toString();
+                    String _email = email.getText().toString();
 
+                    SharedPreferences pref = getSharedPreferences("college", 0);
+                    String grade_id = pref.getString("grade_id", null);
+                    String stream_id = pref.getString("stream_id", null);
+                    String user_type = pref.getString("user_type", null);
 
-                dialog = new ProgressDialog(SignUpActivity.this);
+                    dialog = new ProgressDialog(SignUpActivity.this);
 
-                if(grade_id != null && stream_id != null && user_type != null) {
+                    if(grade_id != null && stream_id != null && user_type != null) {
 
-                    dialog.setMessage("please wait.");
-                    dialog.show();
-                    dialog.setCanceledOnTouchOutside(false);
+                        dialog.setMessage("please wait.");
+                        dialog.show();
+                        dialog.setCanceledOnTouchOutside(false);
 
-                    registrationCall(_name, _phone, _email, city_id, grade_id, stream_id, user_type);
-                }else{
-                    Toast.makeText(SignUpActivity.this, "Valid name, mobile, and email is required", Toast.LENGTH_SHORT).show();
+                        registrationCall(_name, _phone, _email, city_id, grade_id, stream_id, user_type);
+                    }else{
+                        Toast.makeText(SignUpActivity.this, "Valid name, mobile, and email is required", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
             }
         });
 

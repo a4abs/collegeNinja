@@ -42,13 +42,13 @@ public class ActivityArticleSearch extends AppCompatActivity {
         setContentView(R.layout.activity_article);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Article");
+        toolbar.setTitle("OUR LIBRARY");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        articel = findViewById(R.id.articel);
+        articel = findViewById(R.id.articles);
         header = findViewById(R.id.header);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

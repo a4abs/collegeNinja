@@ -45,6 +45,8 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyView> 
 
         holder.header.setText(_name);
 
+
+
         Glide.with(mcon).load(arrayList.get(position).get("thumb_img")).listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFirstResource) {

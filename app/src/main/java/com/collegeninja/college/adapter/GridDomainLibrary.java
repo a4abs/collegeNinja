@@ -14,6 +14,8 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.collegeninja.college.activity.SubDomainsActivity;
 import com.fdscollege.college.R;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,10 +24,10 @@ public class GridDomainLibrary extends RecyclerView.Adapter<GridDomainLibrary.My
 
     private ArrayList<HashMap<String, String>> arrayList;
 
-    private Context mcon;
+    private Context mContext;
 
     public GridDomainLibrary(Context context, ArrayList<HashMap<String, String>> arrayList) {
-        mcon = context;
+        mContext = context;
         this.arrayList = arrayList;
     }
 
@@ -43,7 +45,14 @@ public class GridDomainLibrary extends RecyclerView.Adapter<GridDomainLibrary.My
         final String _name = arrayList.get(position).get("name");
         holder.header.setText(_name);
 
-        Glide.with(mcon).load(arrayList.get(position).get("thumb_img")).listener(new RequestListener<String, GlideDrawable>() {
+        Picasso.with(mContext)
+                .load(arrayList.get(position).get("thumb_img"))
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.logo).fit()
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .into(holder.pic);
+
+        /*Glide.with(mContext).load(arrayList.get(position).get("thumb_img")).listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFirstResource) {
                 //holder.progress.setVisibility(View.INVISIBLE);
@@ -54,13 +63,13 @@ public class GridDomainLibrary extends RecyclerView.Adapter<GridDomainLibrary.My
             public boolean onResourceReady(GlideDrawable resource, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                 return false;
             }
-        }).into(holder.pic);
+        }).into(holder.pic);*/
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mcon.startActivity(new Intent(mcon, SubDomainsActivity.class).putExtra("id",_id).putExtra("name",_name));
+                mContext.startActivity(new Intent(mContext, SubDomainsActivity.class).putExtra("id",_id).putExtra("name",_name));
             }
         });
 

@@ -38,7 +38,7 @@ import java.util.Map;
 public class ArticleActivity extends AppCompatActivity {
 
     RecyclerView articel;
-    ArrayList<HashMap<String,String>> arrayList_articel = new ArrayList<>();
+    ArrayList<HashMap<String,String>> arrayListArticles = new ArrayList<>();
 
     String token = "";
     TextView header;
@@ -51,14 +51,14 @@ public class ArticleActivity extends AppCompatActivity {
 
         //getting the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Article");
+        toolbar.setTitle("OUR LIBRARY");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        articel = findViewById(R.id.articel);
+        articel = findViewById(R.id.articles);
         header = findViewById(R.id.header);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -112,10 +112,10 @@ public class ArticleActivity extends AppCompatActivity {
                             map.put("description",description);
                             map.put("thumb_img",thumb_img_path);
 
-                            arrayList_articel.add(map);
+                            arrayListArticles.add(map);
                         }
 
-                        ArticleAdapter adapter = new ArticleAdapter(getApplicationContext(), arrayList_articel);
+                        ArticleAdapter adapter = new ArticleAdapter(getApplicationContext(), arrayListArticles);
                         articel.setAdapter(adapter);
                     }
                 } catch (JSONException e) {
