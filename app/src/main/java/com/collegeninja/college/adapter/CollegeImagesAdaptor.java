@@ -1,13 +1,17 @@
 package com.collegeninja.college.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.collegeninja.college.activity.CollegeGallery;
 import com.fdscollege.college.R;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -17,12 +21,13 @@ import java.util.HashMap;
 
 public class CollegeImagesAdaptor extends  RecyclerView.Adapter<CollegeImagesAdaptor.MyView> {
     private ArrayList<HashMap<String, String>> arrayList;
-
+    private Activity mActivity;
     private Context mContext;
 
-    public CollegeImagesAdaptor(Context context, ArrayList<HashMap<String, String>> arrayList){
+    public CollegeImagesAdaptor(Context context, Activity activity, ArrayList<HashMap<String, String>> arrayList){
         this.arrayList = arrayList;
         mContext = context;
+        mActivity = activity;
 
     }
 
@@ -35,8 +40,8 @@ public class CollegeImagesAdaptor extends  RecyclerView.Adapter<CollegeImagesAda
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyView holder, int i) {
-        String imageUrl = arrayList.get(i).get("img_path");
+    public void onBindViewHolder(@NonNull MyView holder, final int i) {
+        final String imageUrl = arrayList.get(i).get("img_path");
         Picasso.with(mContext)
                 .load(imageUrl)
                 .placeholder(R.drawable.logo)
@@ -44,6 +49,17 @@ public class CollegeImagesAdaptor extends  RecyclerView.Adapter<CollegeImagesAda
                 .fit()
                 .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(holder.imgViewGallery);
+
+        holder.imgViewGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Image","Clicked");
+                Intent intent = new Intent(mActivity, CollegeGallery.class);
+                intent.putExtra("position", i);
+                intent.putExtra("arrayList", arrayList);
+                mActivity.startActivity(intent);
+            }
+        });
     }
 
     @Override

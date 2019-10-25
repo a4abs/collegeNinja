@@ -21,7 +21,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name="com.collegeninja.college.activity.ActivityArticleSearch"></activity>
+        <activity
+            android:name="com.collegeninja.college.activity.CollegeGallery"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_college_gallery"
+            android:theme="@style/FullscreenTheme"></activity>
+        <activity android:name="com.collegeninja.college.activity.ActivityArticleSearch" />
         <activity android:name="com.collegeninja.college.activity.IntroActivity" />
         <activity
             android:name="com.collegeninja.college.activity.ContactActivity"

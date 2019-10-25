@@ -231,7 +231,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
                 arrayListImages.add(map);
             }
 
-            CollegeImagesAdaptor adapter = new CollegeImagesAdaptor(getApplicationContext(), arrayListImages);
+            CollegeImagesAdaptor adapter = new CollegeImagesAdaptor(getApplicationContext(), this, arrayListImages);
             rvGallery.setAdapter(adapter);
         } catch (JSONException e){
             e.printStackTrace();
