@@ -78,8 +78,8 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.MyView> 
                 intent.putExtra("name", arrayList.get(position).get("name"));
                 intent.putExtra("description", arrayList.get(position).get("description"));
                 intent.putExtra("contact", arrayList.get(position).get("contact"));
-
                 intent.putExtra("thumb_img", arrayList.get(position).get("thumb_img"));
+                intent.putExtra("images", arrayList.get(position).get("images"));
                 intent.putExtra("features", arrayList.get(position).get("features"));
                 intent.putExtra("courses", arrayList.get(position).get("courses"));
                 intent.putExtra("brochure", arrayList.get(position).get("brochure"));

@@ -142,7 +142,7 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
 
         loadProfileData();
 
-        openSetPermissionPopup();
+        //openSetPermissionPopup();
 
         if(!isNetworkConnected()){
             Toast.makeText(this, "check your internet connection and try again!", Toast.LENGTH_SHORT).show();

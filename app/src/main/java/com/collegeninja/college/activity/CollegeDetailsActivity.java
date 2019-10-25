@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.collegeninja.college.adapter.CollegeFeatureAdapter;
+import com.collegeninja.college.adapter.CollegeImagesAdaptor;
 import com.collegeninja.college.adapter.CourseDetailAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -40,12 +41,13 @@ import java.util.HashMap;
 
 public class CollegeDetailsActivity extends AppCompatActivity {
 
-    String _id, _name, _description, _contact, _thumb_img, _features, _courses, _brochure;
+    String _id, _name, _description, _contact, _thumb_img, _features, _courses, _brochure, _images;
     ImageView header_image;
     TextView title, description, brochure, contact;
-    RecyclerView rvCourseOffered, rvFeatures;
+    RecyclerView rvCourseOffered, rvFeatures, rvGallery;
     ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
     ArrayList<HashMap<String, String>> arrayList_feature = new ArrayList<>();
+    ArrayList<HashMap<String, String>> arrayListImages = new ArrayList<>();
 
     SliderLayout sliderLayout;
     HashMap<String,String> Hash_file_maps ;
@@ -81,10 +83,13 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         _features = getIntent().getStringExtra("features");
         _courses = getIntent().getStringExtra("courses");
         _brochure = getIntent().getStringExtra("brochure");
+        _images = getIntent().getStringExtra("images");
 
+        Log.d("images","========>"+_images);
         header_image = findViewById(R.id.header_image);
         rvCourseOffered = findViewById(R.id.course_offered);
         rvFeatures = findViewById(R.id.feature);
+        rvGallery = findViewById(R.id.gallery);
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
         brochure = findViewById(R.id.brochure);
@@ -150,6 +155,10 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         ItemOffsetDecoration _itemDecoration = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
         rvFeatures.addItemDecoration(_itemDecoration);
 
+        rvGallery.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        ItemOffsetDecoration itemDecorationGallery = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
+        rvGallery.addItemDecoration(itemDecorationGallery);
+
         try {
             JSONArray jsonArray = new JSONArray(_thumb_img);
             for(int i = 0; i < jsonArray.length(); i++){
@@ -202,6 +211,29 @@ public class CollegeDetailsActivity extends AppCompatActivity {
             CourseDetailAdapter adapter = new CourseDetailAdapter(getApplicationContext(), arrayList);
             rvCourseOffered.setAdapter(adapter);
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // populate gallery
+        try {
+            JSONArray jsonArray = new JSONArray(_images);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject _jsonObject = jsonArray.getJSONObject(i);
+                HashMap<String, String> map = new HashMap<>();
+                String id = _jsonObject.getString("id");
+                String image = _jsonObject.getString("image");
+                String img_path = _jsonObject.getString("img_path");
+
+                map.put("id", id);
+                map.put("name", image);
+                map.put("img_path", img_path);
+
+                arrayListImages.add(map);
+            }
+
+            CollegeImagesAdaptor adapter = new CollegeImagesAdaptor(getApplicationContext(), arrayListImages);
+            rvGallery.setAdapter(adapter);
+        } catch (JSONException e){
             e.printStackTrace();
         }
 

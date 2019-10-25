@@ -99,6 +99,7 @@ public class CollegesFragment extends Fragment {
                             map.put("thumb_img", images);
                             map.put("features", features);
                             map.put("courses", courses);
+                            map.put("images", images);
                             map.put("brochure", brochure);
 
                             lib_arrayList.add(map);
