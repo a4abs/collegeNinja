@@ -5,8 +5,10 @@
 
     <ImageView
         android:id="@+id/imgDisplay"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
         android:scaleType="fitCenter" />
 
     <Button
@@ -19,8 +21,8 @@
         android:layout_marginTop="15dp"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
-        android:background="#000000"
-        android:textColor="#ffffff"
+        android:background="@color/orange"
+        android:textColor="@color/black"
         android:text="Close" />
 
 </RelativeLayout>

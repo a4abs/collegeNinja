@@ -251,6 +251,7 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, LandingActivity.class));
             return true;
         }
 

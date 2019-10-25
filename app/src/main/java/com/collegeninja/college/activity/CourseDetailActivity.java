@@ -55,7 +55,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_detail);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Course Detail");
+
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -71,6 +71,7 @@ public class CourseDetailActivity extends AppCompatActivity {
         _header_image = getIntent().getStringExtra("image");
         _description = getIntent().getStringExtra("description");
 
+        toolbar.setTitle(_title);
         header.setText(_title);
         _desc.setText(_description);
 

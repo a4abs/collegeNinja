@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SubDomainsActivity extends AppCompatActivity {
 
-    RecyclerView subdomain;
+    RecyclerView rvSubdomain;
     String id, name, token;
     TextView header;
     ArrayList<HashMap<String,String>> arrayList_subdomain = new ArrayList<>();
@@ -43,14 +43,14 @@ public class SubDomainsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_domains);
 
-        subdomain = findViewById(R.id.subdomain);
+        rvSubdomain = findViewById(R.id.subdomain);
         header = findViewById(R.id.header);
 
         id = getIntent().getStringExtra("id");
         name = getIntent().getStringExtra("name");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Sub Domains");
+        toolbar.setTitle("SUBDOMAINS");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -63,9 +63,9 @@ public class SubDomainsActivity extends AppCompatActivity {
             }
         });
 
-        subdomain.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        rvSubdomain.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
-        subdomain.addItemDecoration(itemDecoration);
+        rvSubdomain.addItemDecoration(itemDecoration);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("college", Context.MODE_PRIVATE);
         token = pref.getString("token", "");
@@ -107,7 +107,7 @@ public class SubDomainsActivity extends AppCompatActivity {
                         }
 
                         SubDomainAdapter adapter= new SubDomainAdapter(getApplicationContext(), arrayList_subdomain);
-                        subdomain.setAdapter(adapter);
+                        rvSubdomain.setAdapter(adapter);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
