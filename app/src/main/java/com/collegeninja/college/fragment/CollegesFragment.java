@@ -37,7 +37,7 @@ import java.util.Map;
  */
 public class CollegesFragment extends Fragment {
 
-    RecyclerView college_recyclerview;
+    RecyclerView collegeRecyclerView;
     ArrayList<HashMap<String, String>> lib_arrayList = new ArrayList<>();
     String token;
 
@@ -54,10 +54,10 @@ public class CollegesFragment extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences("college", Context.MODE_PRIVATE);
         token = pref.getString("token", "");
 
-        college_recyclerview = view.findViewById(R.id.college_recyclerview);
-        college_recyclerview.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        collegeRecyclerView = view.findViewById(R.id.college_recyclerview);
+        collegeRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.item_offset);
-        college_recyclerview.addItemDecoration(itemDecoration);
+        collegeRecyclerView.addItemDecoration(itemDecoration);
 
         loadCollegeInfo();
 
@@ -105,7 +105,7 @@ public class CollegesFragment extends Fragment {
                         }
 
                         CollegeAdapter adapter = new CollegeAdapter(getActivity(), lib_arrayList);
-                        college_recyclerview.setAdapter(adapter);
+                        collegeRecyclerView.setAdapter(adapter);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

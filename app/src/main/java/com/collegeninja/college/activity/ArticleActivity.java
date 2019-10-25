@@ -125,7 +125,7 @@ public class ArticleActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // Log.e("error is ", "" + error.getMessage());
+
             }
         }) {
             @Override

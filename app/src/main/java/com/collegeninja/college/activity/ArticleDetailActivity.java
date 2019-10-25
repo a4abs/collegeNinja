@@ -3,6 +3,7 @@ package com.collegeninja.college.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
         _description = getIntent().getStringExtra("desc");
 
         title.setText(_title);
-        description.setText(_description);
+        description.setText(Html.fromHtml(_description));
 
         Glide.with(getApplicationContext()).load(_header_image).listener(new RequestListener<String, GlideDrawable>() {
             @Override

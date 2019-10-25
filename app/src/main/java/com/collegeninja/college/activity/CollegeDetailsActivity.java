@@ -11,6 +11,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,7 +43,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
     String _id, _name, _description, _contact, _thumb_img, _features, _courses, _brochure;
     ImageView header_image;
     TextView title, description, brochure, contact;
-    RecyclerView coursedetail, feature;
+    RecyclerView rvCourseOffered, rvFeatures;
     ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
     ArrayList<HashMap<String, String>> arrayList_feature = new ArrayList<>();
 
@@ -81,8 +83,8 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         _brochure = getIntent().getStringExtra("brochure");
 
         header_image = findViewById(R.id.header_image);
-        coursedetail = findViewById(R.id.coursedetail);
-        feature = findViewById(R.id.feature);
+        rvCourseOffered = findViewById(R.id.course_offered);
+        rvFeatures = findViewById(R.id.feature);
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
         brochure = findViewById(R.id.brochure);
@@ -90,7 +92,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         sliderLayout = findViewById(R.id.slider);
 
         title.setText(_name);
-        description.setText(_description);
+        description.setText(Html.fromHtml(_description));
 
         if(!_contact.isEmpty() && _contact != null){
             contact.setText("Call: " + _contact);
@@ -139,13 +141,14 @@ public class CollegeDetailsActivity extends AppCompatActivity {
             }
         }).into(header_image);*/
 
-        coursedetail.setLayoutManager(new LinearLayoutManager(CollegeDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        //rvCourseOffered.setLayoutManager(new LinearLayoutManager(CollegeDetailsActivity.this, LinearLayoutManager.VERTICAL, false));
+        rvCourseOffered.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
-        coursedetail.addItemDecoration(itemDecoration);
+        rvCourseOffered.addItemDecoration(itemDecoration);
 
-        feature.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        rvFeatures.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         ItemOffsetDecoration _itemDecoration = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
-        feature.addItemDecoration(_itemDecoration);
+        rvFeatures.addItemDecoration(_itemDecoration);
 
         try {
             JSONArray jsonArray = new JSONArray(_thumb_img);
@@ -197,7 +200,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
             }
 
             CourseDetailAdapter adapter = new CourseDetailAdapter(getApplicationContext(), arrayList);
-            coursedetail.setAdapter(adapter);
+            rvCourseOffered.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -211,17 +214,18 @@ public class CollegeDetailsActivity extends AppCompatActivity {
                 HashMap<String, String> map = new HashMap<>();
                 String id = _jsonObject.getString("id");
                 String name = _jsonObject.getString("name");
+                String logo = _jsonObject.getString("logo");
                 String description = _jsonObject.getString("description");
-
                 map.put("id", id);
                 map.put("name", name);
+                map.put("logo", logo);
                 map.put("description", description);
 
                 arrayList_feature.add(map);
             }
 
-            CollegeFeatureAdapter adapter = new CollegeFeatureAdapter(getApplicationContext(), arrayList);
-            feature.setAdapter(adapter);
+            CollegeFeatureAdapter adapter = new CollegeFeatureAdapter(getApplicationContext(), arrayList_feature);
+            rvFeatures.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
