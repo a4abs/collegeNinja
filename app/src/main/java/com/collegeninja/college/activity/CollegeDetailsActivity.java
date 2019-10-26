@@ -244,10 +244,14 @@ public class CollegeDetailsActivity extends AppCompatActivity {
                                 String courseId = _jsonObject.getString("id");
                                 String courseName = _jsonObject.getString("name");
                                 String courseImg = _jsonObject.getString("course_img");
+                                String colleges = _jsonObject.getJSONArray("colleges").toString();
 
                                 coursesMap.put("id", courseId);
                                 coursesMap.put("name", courseName);
                                 coursesMap.put("thumb_img", courseImg);
+                                coursesMap.put("colleges", colleges);
+                                coursesMap.put("domain", "");
+                                coursesMap.put("image", null);
 
                                 arrayList.add(coursesMap);
                             }

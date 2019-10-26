@@ -24,72 +24,68 @@
             android:visibility="gone"
             android:minHeight="180dp"/>
 
-        <android.support.v7.widget.CardView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:padding="10dp"
-                android:text="OUR LIBRARY"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorPrimaryDark" />
-
-        </android.support.v7.widget.CardView>
+            android:layout_gravity="bottom"
+            android:fontFamily="sans-serif"
+            android:lineHeight="2dp"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/content_padding"
+            android:text="OUR LIBRARY"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorPrimary" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/ourlibrary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="80dp"
-            android:padding="10dp" />
+            android:layout_marginLeft="@dimen/content_padding"
+            android:layout_marginRight="@dimen/content_padding"
+            android:minHeight="80dp" />
 
-        <android.support.v7.widget.CardView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:padding="10dp"
-                android:text="DOMAINS"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorPrimaryDark" />
-        </android.support.v7.widget.CardView>
+            android:layout_gravity="bottom"
+            android:fontFamily="sans-serif"
+            android:lineHeight="2dp"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/content_padding"
+            android:text="DOMAINS"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorPrimary" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/domain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="80dp"
-            android:padding="10dp" />
+            android:layout_marginLeft="@dimen/content_padding"
+            android:layout_marginRight="@dimen/content_padding"/>
 
-        <android.support.v7.widget.CardView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:padding="10dp"
-                android:text="TOP PICKS FOR YOU"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorPrimaryDark" />
-        </android.support.v7.widget.CardView>
+            android:layout_gravity="bottom"
+            android:fontFamily="sans-serif"
+            android:lineHeight="2dp"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/content_padding"
+            android:text="TOP PICK FOR YOU"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorPrimary" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/top_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="80dp"
-            android:padding="10dp" />
+            android:layout_marginLeft="@dimen/content_padding"
+            android:layout_marginRight="@dimen/content_padding" />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
