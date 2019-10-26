@@ -45,7 +45,7 @@ public class CourseDetailActivity extends AppCompatActivity {
     TextView header;
 
     ImageView header_image;
-    TextView _desc;
+    TextView _desc, tvCourseSectionTitle;
     String _header_image,_title,_description;
 
 
@@ -60,18 +60,22 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("");
+
 
         coursedetail = findViewById(R.id.coursedetail);
         header = findViewById(R.id.header);
         _desc = findViewById(R.id.description);
         header_image = findViewById(R.id.header_image);
+        tvCourseSectionTitle =findViewById(R.id.course_section_title);
+        tvCourseSectionTitle.setText("");
 
         id = getIntent().getStringExtra("id");
         _title = getIntent().getStringExtra("title");
         _header_image = getIntent().getStringExtra("image");
         _description = getIntent().getStringExtra("description");
 
-        toolbar.setTitle(_title);
+
         header.setText(_title);
         _desc.setText(_description);
 
@@ -106,7 +110,7 @@ public class CourseDetailActivity extends AppCompatActivity {
     }
 
     private void loadCourseDetail(String id) {
-        String url = "http://collegeninja.fdstech.solutions/api/get_course_details/"+id;
+        String url = "http://collegeninja.fdstech.solutions/api/get_courses/"+id;
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -117,19 +121,24 @@ public class CourseDetailActivity extends AppCompatActivity {
 
                     if (success.equals("true")) {
 
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                        JSONArray jsonArray = jsonObject1.getJSONArray("colleges");
-
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject _jsonObject = jsonArray.getJSONObject(i);
+                        JSONArray courses = jsonObject.getJSONArray("data");
+                        //JSONArray jsonArray = jsonObject1.getJSONArray("colleges");
+                        if(courses.length() > 0){
+                            tvCourseSectionTitle.setText("Course Offered in "+_title);
+                        } else {
+                            tvCourseSectionTitle.setText("");
+                        }
+                        Log.d("Courses","=====>"+courses.length());
+                        for (int i = 0; i < courses.length(); i++) {
+                            JSONObject _jsonObject = courses.getJSONObject(i);
                             HashMap<String, String> map = new HashMap<>();
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
-                            String brochure = _jsonObject.getString("brochure");
+                            String course_img = _jsonObject.getString("course_img");
 
                             map.put("id", id);
                             map.put("name", name);
-                            map.put("thumb_img", brochure);
+                            map.put("thumb_img", course_img);
 
                             arrayList.add(map);
                         }

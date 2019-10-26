@@ -35,6 +35,8 @@ dependencies {
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'com.karumi:dexter:5.0.0'
     implementation 'com.basgeekball:awesome-validation:4.2'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    implementation 'com.github.Ibotta:Supported-Picker-Dialogs:1.0.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

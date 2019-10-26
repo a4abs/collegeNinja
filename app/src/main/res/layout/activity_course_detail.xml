@@ -25,6 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:orientation="vertical">
 
             <FrameLayout
@@ -39,16 +40,29 @@
                     android:scaleType="fitXY"
                     android:minHeight="200dp" />
 
-                <TextView
-                    android:id="@+id/header"
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:background="#4D8B8888"
-                    android:fontFamily="sans-serif"
-                    android:padding="10dp"
-                    android:text=""
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/image_gradient">
+
+                    <TextView
+                        android:id="@+id/header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:fontFamily="sans-serif"
+                        android:gravity="start"
+                        android:layout_alignParentBottom="true"
+                        android:padding="@dimen/content_padding"
+                        android:textSize="21sp"
+                        android:lineSpacingExtra="3dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/colorWhite"
+                        android:textStyle="bold"/>
+
+                </RelativeLayout>
             </FrameLayout>
 
             <TextView
@@ -57,16 +71,31 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:fontFamily="sans-serif"
-                android:padding="10dp"
+                android:padding="@dimen/content_padding"
                 android:text=""
                 android:lineSpacingExtra="3dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
+            <TextView
+                android:id="@+id/course_section_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:fontFamily="sans-serif"
+                android:lineHeight="2dp"
+                android:textStyle="bold"
+                android:padding="@dimen/content_padding"
+                android:layout_marginTop="@dimen/heading_margin"
+                android:layout_marginBottom="@dimen/heading_margin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorPrimary" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/coursedetail"
+                android:layout_margin="@dimen/content_padding"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="5dp" />
+                />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

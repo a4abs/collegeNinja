@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -33,13 +34,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.activity.LandingActivity;
+import com.collegeninja.college.utils.VolleyMultipartRequest;
 import com.fdscollege.college.R;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -48,7 +52,9 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import  com.ibotta.android.support.pickerdialogs.SupportedDatePickerDialog;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,9 +69,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+import de.hdodenhof.circleimageview.CircleImageView;
+
+
 public class ProfileFragment extends Fragment {
 
     Spinner city, gender, academic_status, domain;
@@ -99,7 +105,7 @@ public class ProfileFragment extends Fragment {
     private ProgressDialog dialog;
 
     private Button btn;
-    private ImageView imageview;
+    private CircleImageView imgViewProfile;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
     TextView HeaderName, HeaderBatch;
@@ -126,11 +132,7 @@ public class ProfileFragment extends Fragment {
         Log.i("token :::::: ", "" + token);
 
 
-
-
-
         dialog = new ProgressDialog(getActivity());
-
         dialog.setMessage("please wait.");
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
@@ -138,7 +140,14 @@ public class ProfileFragment extends Fragment {
         loadCity();
 
         btn = (Button) view.findViewById(R.id.btn);
-        imageview = (ImageView) view.findViewById(R.id.iv);
+        imgViewProfile = (CircleImageView) view.findViewById(R.id.profile_image);
+
+        imgViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPictureDialog();
+            }
+        });
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,10 +264,19 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                datePickerDialog = new DatePickerDialog(getActivity(),
+                int initialYear = calendar.get(Calendar.YEAR);
+                int initialMonth = calendar.get(Calendar.MONTH);
+                int initialDay = calendar.get(Calendar.DAY_OF_MONTH);
+                new SupportedDatePickerDialog(getActivity(), R.style.SpinnerDatePickerDialogTheme, new SupportedDatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(@NotNull DatePicker datePicker, int yr, int mnth, int day) {
+                        dayOfMonth = day;
+                        year = yr;
+                        month = mnth+1;
+                        calender.setText(dayOfMonth + "/" + month + "/" + year);
+                    }
+                }, initialYear, initialMonth, initialDay).show();
+                /*datePickerDialog = new DatePickerDialog(getActivity(),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -266,7 +284,8 @@ public class ProfileFragment extends Fragment {
                             }
                         }, year, month, dayOfMonth);
                 //datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-                datePickerDialog.show();
+
+                datePickerDialog.show();*/
             }
         });
 
@@ -469,7 +488,7 @@ public class ProfileFragment extends Fragment {
                         String _academic_status = _jsonObject.getString("academic_status");
                         int _domain_id = _jsonObject.getInt("domain_id");
                         String _domain = _jsonObject.getString("domain");
-                        String user_image = _jsonObject.getString("user_image");
+                        String user_image = _jsonObject.getString("profile_pic");
                         String user_image_path = _jsonObject.getString("user_image_path");
 
                         name.setText(_name);
@@ -479,6 +498,14 @@ public class ProfileFragment extends Fragment {
                         year = dob_year;
                         month = dob_month;
                         dayOfMonth = dob_day;
+
+                        if(user_image != null){
+                            byte[] decodedString = Base64.decode(user_image, Base64.DEFAULT);
+                            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                            imgViewProfile.setImageBitmap(decodedByte);
+                        } else {
+                            imgViewProfile.setImageResource(R.drawable.upload_profile_pic);
+                        }
 
                         if (dob_day != 0) {
                             calender.setText(dob_day + "/" + dob_month + "/" + dob_year);
@@ -663,13 +690,13 @@ public class ProfileFragment extends Fragment {
                 Uri contentURI = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
-                    String path = saveImage(bitmap);
+                    String imageFile = saveImage(bitmap);
                     base64 = encodeTobase64(bitmap);
 
                     Toast.makeText(getActivity(),"Image Saved!", Toast.LENGTH_SHORT).show();
-                    imageview.setImageBitmap(bitmap);
+                    imgViewProfile.setImageBitmap(bitmap);
 
-                    loadPic(base64);
+                    uploadProfilePic(base64, bitmap);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -679,15 +706,80 @@ public class ProfileFragment extends Fragment {
 
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            imageview.setImageBitmap(thumbnail);
-            saveImage(thumbnail);
+            imgViewProfile.setImageBitmap(thumbnail);
+            String imageFile = saveImage(thumbnail);
             base64 = encodeTobase64(thumbnail);
             Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
-            loadPic(base64);
+            uploadProfilePic(base64, thumbnail);
         }
     }
 
-    private void loadPic(final String base64) {
+    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    private void uploadProfilePic(final String base64, final Bitmap imageFile){
+        dialog = new ProgressDialog(getActivity());
+
+        dialog.setMessage("please wait.");
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+
+        final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        imageFile.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        String url = "http://collegeninja.fdstech.solutions/api/update_user_profile_pic";
+
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+                dialog.dismiss();
+
+                Log.d("Response","====>"+response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+
+                Log.d("====>", "=="+error);
+            }
+        }){
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", token);
+                return params;
+            }
+
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                long imagename = System.currentTimeMillis();
+                params.put("profile_pic", new DataPart(imagename + ".png", getFileDataFromDrawable(imageFile)));
+                return params;
+            }
+        };
+        volleyMultipartRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        Volley.newRequestQueue(getActivity()).add(volleyMultipartRequest);
+    }
+    private void loadPic(final String base64, File imageFile) {
         dialog = new ProgressDialog(getActivity());
 
         dialog.setMessage("please wait.");
@@ -701,6 +793,8 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 dialog.dismiss();
+
+                Log.d("Response","===>"+response);
 
 //                try {
 //                    JSONObject jsonObject = new JSONObject(response);
@@ -716,6 +810,7 @@ public class ProfileFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("Error:ImageUpload", "==>"+error);
                 dialog.dismiss();
             }
         }) {

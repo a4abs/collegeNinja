@@ -58,7 +58,7 @@ public class CollegeAdapter extends RecyclerView.Adapter<CollegeAdapter.MyView> 
             String img_path = _jsonObject.getString("img_path");
             Picasso.with(mContext)
                     .load(img_path)
-                    .placeholder(R.drawable.logo)
+                    .placeholder(R.drawable.placeholder)
                     .error(R.drawable.logo)
                     .fit()
                     .networkPolicy(NetworkPolicy.NO_CACHE)

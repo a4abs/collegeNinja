@@ -15,6 +15,8 @@ import com.bumptech.glide.request.RequestListener;
 import com.collegeninja.college.activity.ArticleActivity;
 import com.collegeninja.college.activity.ArticleDetailActivity;
 import com.fdscollege.college.R;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,10 +25,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyView> 
 
     private ArrayList<HashMap<String, String>> arrayList;
 
-    private Context mcon;
+    private Context mContext;
 
     public ArticleAdapter(Context context, ArrayList<HashMap<String, String>> arrayList) {
-        mcon = context;
+        mContext = context;
         this.arrayList = arrayList;
     }
 
@@ -45,9 +47,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyView> 
 
         holder.header.setText(_name);
 
+        Picasso.with(mContext)
+                .load(arrayList.get(position).get("thumb_img"))
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.logo).fit()
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .into(holder.pic);
 
-
-        Glide.with(mcon).load(arrayList.get(position).get("thumb_img")).listener(new RequestListener<String, GlideDrawable>() {
+       /* Glide.with(mContext).load(arrayList.get(position).get("thumb_img")).listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFirstResource) {
                 //holder.progress.setVisibility(View.INVISIBLE);
@@ -58,17 +65,17 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.MyView> 
             public boolean onResourceReady(GlideDrawable resource, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                 return false;
             }
-        }).into(holder.pic);
+        }).into(holder.pic);*/
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mcon, ArticleDetailActivity.class);
+                Intent intent = new Intent(mContext, ArticleDetailActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("image", arrayList.get(position).get("thumb_img"));
                 intent.putExtra("title", _name);
                 intent.putExtra("desc",description );
-                mcon.startActivity(intent);
+                mContext.startActivity(intent);
             }
         });
     }

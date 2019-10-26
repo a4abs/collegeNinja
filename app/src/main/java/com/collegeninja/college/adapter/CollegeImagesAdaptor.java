@@ -44,7 +44,7 @@ public class CollegeImagesAdaptor extends  RecyclerView.Adapter<CollegeImagesAda
         final String imageUrl = arrayList.get(i).get("img_path");
         Picasso.with(mContext)
                 .load(imageUrl)
-                .placeholder(R.drawable.logo)
+                .placeholder(R.drawable.placeholder)
                 .error(R.drawable.logo)
                 .fit()
                 .networkPolicy(NetworkPolicy.NO_CACHE)
