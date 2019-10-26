@@ -25,14 +25,17 @@ import com.bumptech.glide.request.RequestListener;
 import com.collegeninja.college.adapter.CourseAdapter;
 import com.collegeninja.college.adapter.CourseDetailAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.model.CourseColleges;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CourseDetailActivity extends AppCompatActivity {
@@ -47,6 +50,7 @@ public class CourseDetailActivity extends AppCompatActivity {
     ImageView header_image;
     TextView _desc, tvCourseSectionTitle;
     String _header_image,_title,_description;
+    List<CourseColleges> courseColleges;
 
 
     @Override
@@ -60,7 +64,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
         coursedetail = findViewById(R.id.coursedetail);
@@ -122,23 +126,28 @@ public class CourseDetailActivity extends AppCompatActivity {
                     if (success.equals("true")) {
 
                         JSONArray courses = jsonObject.getJSONArray("data");
-                        //JSONArray jsonArray = jsonObject1.getJSONArray("colleges");
                         if(courses.length() > 0){
                             tvCourseSectionTitle.setText("Course Offered in "+_title);
                         } else {
                             tvCourseSectionTitle.setText("");
                         }
-                        Log.d("Courses","=====>"+courses.length());
+
                         for (int i = 0; i < courses.length(); i++) {
                             JSONObject _jsonObject = courses.getJSONObject(i);
+
                             HashMap<String, String> map = new HashMap<>();
+                            //courseColleges = new ArrayList<>();
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
                             String course_img = _jsonObject.getString("course_img");
+                            JSONArray colleges = _jsonObject.getJSONArray("colleges");
 
+                            //courseColleges.add(new CourseColleges(id, name, _title, course_img, colleges))
                             map.put("id", id);
                             map.put("name", name);
                             map.put("thumb_img", course_img);
+                            map.put("domain", _title);
+                            map.put("colleges", colleges.toString());
 
                             arrayList.add(map);
                         }

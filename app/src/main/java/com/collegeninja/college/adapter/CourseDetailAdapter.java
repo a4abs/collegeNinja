@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.collegeninja.college.activity.CollegesActivity;
 import com.collegeninja.college.activity.CourseDetailActivity;
 import com.fdscollege.college.R;
 
@@ -22,10 +23,10 @@ public class CourseDetailAdapter extends RecyclerView.Adapter<CourseDetailAdapte
 
     private ArrayList<HashMap<String, String>> arrayList;
 
-    private Context mcon;
+    private Context mContext;
 
     public CourseDetailAdapter(Context context, ArrayList<HashMap<String, String>> arrayList) {
-        mcon = context;
+        mContext = context;
         this.arrayList = arrayList;
     }
 
@@ -40,10 +41,11 @@ public class CourseDetailAdapter extends RecyclerView.Adapter<CourseDetailAdapte
 
         final String _id = arrayList.get(position).get("id");
         final String _name = arrayList.get(position).get("name");
+        final String _domain = arrayList.get(position).get("domain");
 
         holder.header.setText(_name);
 
-        Glide.with(mcon).load(arrayList.get(position).get("thumb_img")).listener(new RequestListener<String, GlideDrawable>() {
+        Glide.with(mContext).load(arrayList.get(position).get("thumb_img")).listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFirstResource) {
                 //holder.progress.setVisibility(View.INVISIBLE);
@@ -59,7 +61,16 @@ public class CourseDetailAdapter extends RecyclerView.Adapter<CourseDetailAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mcon.startActivity(new Intent(mcon, CourseDetailActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("id",_id).putExtra("title",_name).putExtra("description",arrayList.get(position).get("description")).putExtra("image",arrayList.get(position).get("thumb_img")));
+                Intent intent = new Intent(mContext, CollegesActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("id",_id);
+                intent.putExtra("title",_name);
+                intent.putExtra("domain",_domain);
+                intent.putExtra("description",arrayList.get(position).get("description"));
+                intent.putExtra("image", arrayList.get(position).get("thumb_img"));
+                intent.putExtra("colleges", arrayList.get(position).get("colleges"));
+
+                mContext.startActivity(intent);
             }
         });
     }

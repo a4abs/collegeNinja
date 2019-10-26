@@ -41,4 +41,5 @@
     <string name="err_nam">Please enter a valid name</string>
     <string name="err_email">Please enter valid email address</string>
     <string name="err_phone">Please enter a valid phone</string>
+    <string name="title_activity_colleges">CollegesActivity</string>
 </resources>
