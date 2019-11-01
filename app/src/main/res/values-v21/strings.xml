@@ -2,4 +2,9 @@
 <resources>
     <string name="set_preferences_message">Set your preferences now to get exclusive access to the latest new age courses and industry updates. connect with peers and professors, and discover exciting career</string>
     <string name="err_email">Please enter valid email address</string>
+    <string name="menu_latest_news">Latest News</string>
+    <string name="menu_my_bookmarks">My Bookmarks</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_faq">FAQ</string>
+    <string name="menu_contact">Contact</string>
 </resources>

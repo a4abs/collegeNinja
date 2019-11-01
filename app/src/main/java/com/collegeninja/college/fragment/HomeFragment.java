@@ -2,18 +2,14 @@ package com.collegeninja.college.fragment;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,13 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.collegeninja.college.activity.LandingActivity;
-import com.collegeninja.college.activity.OTPGenerationActivity;
-import com.collegeninja.college.adapter.GradeAdapter;
 import com.collegeninja.college.adapter.GridDomainLibrary;
 import com.collegeninja.college.adapter.GridOurLibrary;
 import com.collegeninja.college.adapter.GridTopPicture;
-import com.collegeninja.college.adapter.TopBannerAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -41,7 +33,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,7 +61,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home1, container, false);
 
         ourlibrary = view.findViewById(R.id.ourlibrary);
         domain = view.findViewById(R.id.domain);

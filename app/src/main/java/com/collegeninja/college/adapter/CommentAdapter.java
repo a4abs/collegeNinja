@@ -40,7 +40,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyView> 
     @Override
     public void onBindViewHolder(final MyView holder, final int position) {
         final String _name = arrayList.get(position).get("name");
-        holder.comment.setText(Html.escapeHtml(_name));
+        holder.comment.setText(Html.fromHtml(_name));
     }
 
     @Override

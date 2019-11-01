@@ -50,7 +50,7 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.My
         ArrayList<HashMap<String,String>> _arrayList = new ArrayList<>();
 
         final String _title = arrayList.get(position).get("title");
-        holder.title.setText(Html.escapeHtml(_title));
+        holder.title.setText(Html.fromHtml(_title));
 
         LinearLayoutManager gridLayoutManager = new LinearLayoutManager(mcon);
         holder.comment.setLayoutManager(gridLayoutManager);

@@ -14,7 +14,7 @@
 
     <style name="MaterialSearchViewStyle">
         <!-- Background for the search bar-->
-        <item name="searchBackground">@color/colorWhite</item>
+        <item name="searchBackground">@color/colorPrimary</item>
 
         <!-- Change voice icon-->
         <item name="searchVoiceIcon">@android:drawable/ic_btn_speak_now</item>
@@ -32,14 +32,15 @@
         <item name="searchSuggestionBackground">@android:color/white</item>
 
         <!-- Change text color for edit text. This will also be the color of the cursor-->
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/color_released</item>
 
         <!-- Change hint text color for edit text-->
-        <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/color_released</item>
 
         <!-- Hint for edit text-->
         <item name="android:hint">@string/search_hint</item>
     </style>
+
     <style name="SpinnerDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <!-- android:datePickerStyle was not added until API 21 -->
         <item name="android:datePickerStyle">@style/DatePickerStyle</item>

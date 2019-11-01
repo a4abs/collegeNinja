@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -58,6 +59,8 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
     Dialog preferenceDialog;
     private MaterialSearchView mSearchViewHome;
     MenuItem searchItem;
+    Boolean isPreferenceSet;
+    SharedPreferences sharedPreferences;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -90,9 +93,10 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_home);
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("college", 0);
-        token = pref.getString("token", "");
-        Log.d("domain", "======="+token);
+        sharedPreferences = getApplicationContext().getSharedPreferences("college", 0);
+        token = sharedPreferences.getString("token", "");
+        isPreferenceSet = sharedPreferences.getBoolean("isPreferences", false);
+
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_landing);
         name = headerLayout.findViewById(R.id.nav_name);
         batch = headerLayout.findViewById(R.id.nav_batch);
@@ -142,7 +146,10 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
 
         loadProfileData();
 
-        //openSetPermissionPopup();
+        if(!isPreferenceSet){
+            openSetPermissionPopup();
+        }
+
 
         if(!isNetworkConnected()){
             Toast.makeText(this, "check your internet connection and try again!", Toast.LENGTH_SHORT).show();
@@ -165,6 +172,10 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
             public void onClick(View v) {
                 Fragment fragment = new ProfileFragment();
                 loadFragment(fragment);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("isPreferenceSet", true);
+                editor.commit();
                 preferenceDialog.dismiss();
                 /*Intent intent = new Intent();
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -234,7 +245,7 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        searchItem = menu.findItem(R.id.action_search);
+
         mSearchViewHome.setMenuItem(searchItem);
         //mSearchViewHome.setIconified
         //View searchView = item.getActionView();
