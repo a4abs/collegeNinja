@@ -1,26 +1,18 @@
 package com.collegeninja.college.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarDrawerToggle;
+
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import com.collegeninja.college.fragment.CollegesFragment;
@@ -28,17 +20,18 @@ import com.collegeninja.college.fragment.CourseFragment;
 import com.collegeninja.college.fragment.DiscussionFragment;
 import com.collegeninja.college.fragment.HomeFragment;
 import com.collegeninja.college.fragment.ProfileFragment;
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.fdscollege.college.R;
+import com.google.android.material.navigation.NavigationView;
 import com.mancj.materialsearchbar.MaterialSearchBar;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener, BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private MaterialSearchBar mSearchViewHome;
-    private BottomNavigationView bottomNavigation;
+    private MeowBottomNavigation bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +51,12 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigation.setOnNavigationItemSelectedListener(this);
-        bottomNavigation.setSelectedItemId(R.id.navigation_home);
+        bottomNavigation =  findViewById(R.id.bottom_navigation);
+        bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.home));
+        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.college));
+        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.courses));
+        bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.persion));
+        
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
@@ -106,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
     }
 
-    @Override
+    /*@Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment;
         switch (menuItem.getItemId()) {
@@ -138,5 +134,5 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
                 return true;
         }
         return false;
-    }
+    }*/
 }

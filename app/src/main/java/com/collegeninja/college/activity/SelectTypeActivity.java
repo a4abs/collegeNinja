@@ -1,20 +1,17 @@
 package com.collegeninja.college.activity;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.collegeninja.college.adapter.GradeAdapter;
-import com.collegeninja.college.adapter.StreamAdapter;
 import com.collegeninja.college.adapter.UserTypeAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
 import com.fdscollege.college.R;
@@ -26,7 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SelectTypeActivity extends AppCompatActivity{
+public class SelectTypeActivity extends AppCompatActivity {
 
     ArrayList<HashMap<String,String>> arrayList;
     private RecyclerView recyclerView;

@@ -1,9 +1,6 @@
 package com.collegeninja.college.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.collegeninja.college.activity.SignUpActivity;
 import com.fdscollege.college.R;

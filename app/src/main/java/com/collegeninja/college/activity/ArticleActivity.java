@@ -3,17 +3,16 @@ package com.collegeninja.college.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,7 +22,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.adapter.ArticleAdapter;
-import com.collegeninja.college.adapter.GridOurLibrary;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
 import com.fdscollege.college.R;
 

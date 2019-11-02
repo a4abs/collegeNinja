@@ -1,18 +1,13 @@
 package com.collegeninja.college.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.collegeninja.college.activity.SelectGradeActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import com.fdscollege.college.R;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
