@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,8 +29,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.adapter.CollegeFeatureAdapter;
 import com.collegeninja.college.adapter.CollegeImagesAdaptor;
+import com.collegeninja.college.adapter.CollegeVideoAdaptor;
 import com.collegeninja.college.adapter.CourseDetailAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.model.Videos;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -42,6 +45,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CollegeDetailsActivity extends AppCompatActivity {
@@ -49,10 +53,11 @@ public class CollegeDetailsActivity extends AppCompatActivity {
     String _id, _name, _description, _thumb_img;
     ImageView header_image;
     TextView tvTitle, tvDescription, tvBrochure, tvContact;
-    RecyclerView rvCourseOffered, rvFeatures, rvGallery;
+    RecyclerView rvCourseOffered, rvFeatures, rvGallery, rvVideos;
     ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
     ArrayList<HashMap<String, String>> arrayList_feature = new ArrayList<>();
     ArrayList<HashMap<String, String>> arrayListImages = new ArrayList<>();
+    List<Videos> videosList;
 
     SliderLayout sliderLayout;
     HashMap<String,String> hashFileMap ;
@@ -87,6 +92,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         rvCourseOffered = findViewById(R.id.course_offered);
         rvFeatures = findViewById(R.id.feature);
         rvGallery = findViewById(R.id.gallery);
+        rvVideos = findViewById(R.id.videos);
         tvTitle = findViewById(R.id.title);
         tvDescription = findViewById(R.id.description);
         tvBrochure = findViewById(R.id.brochure);
@@ -122,6 +128,10 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         rvGallery.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         ItemOffsetDecoration itemDecorationGallery = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
         rvGallery.addItemDecoration(itemDecorationGallery);
+
+        rvVideos.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        ItemOffsetDecoration itemDecorationVideos = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
+        rvVideos.addItemDecoration(itemDecorationVideos);
     }
 
     public void loadCollegeDetails(String collegeId) {
@@ -145,7 +155,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
 
                         JSONArray features = collegeData.getJSONArray("features");
                         JSONArray courses = collegeData.getJSONArray("courses");
-                        String videos = collegeData.getJSONArray("videos").toString();
+                        JSONArray videos = collegeData.getJSONArray("videos");
                         JSONArray images = collegeData.getJSONArray("images");
 
                         tvTitle.setText(name);
@@ -156,6 +166,16 @@ public class CollegeDetailsActivity extends AppCompatActivity {
                         }else{
                             tvContact.setVisibility(View.GONE);
                         }
+                        videosList = new ArrayList<>();
+                        for (int v = 0; v< videos.length(); v++){
+                            JSONObject videoObject = videos.getJSONObject(v);
+                            if(!videoObject.getString("youtube_url").equalsIgnoreCase("null")) {
+                                videosList.add(new Videos(videoObject.getInt("id"), videoObject.getString("video"), videoObject.getString("video_path"), videoObject.getString("youtube_url")));
+                            }
+                        }
+
+                        CollegeVideoAdaptor collegeVideoAdaptor = new CollegeVideoAdaptor(CollegeDetailsActivity.this, videosList, getApplicationContext());
+                        rvVideos.setAdapter(collegeVideoAdaptor);
 
                         tvContact.setOnClickListener(new View.OnClickListener() {
                             @Override

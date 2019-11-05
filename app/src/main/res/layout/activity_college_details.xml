@@ -124,7 +124,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:fontFamily="sans-serif"
+                    android:lineHeight="2dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/heading_margin"
+                    android:layout_marginBottom="@dimen/heading_margin"
+                    android:text="@string/videos"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorPrimary" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/videos"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
                 <TextView
                     android:layout_width="match_parent"
