@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "9181172987",
+    "firebase_url": "https://college-ninja.firebaseio.com",
+    "project_id": "college-ninja",
+    "storage_bucket": "college-ninja.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9181172987:android:2a1440585998e45785cc5e",
+        "android_client_info": {
+          "package_name": "com.fdscollege.college"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9181172987-aohu2tmqbhlukjch2edvs36n6ujbspon.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fdscollege.college",
+            "certificate_hash": "8c3ad08327bf1b492a6248d3774d498d478e62c1"
+          }
+        },
+        {
+          "client_id": "9181172987-2n0667t6p6jgs9rrtmv3meg5g9o0sj4r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmEY0ivha63wCU2ncjofdH7cphhDrHp18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9181172987-2n0667t6p6jgs9rrtmv3meg5g9o0sj4r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
