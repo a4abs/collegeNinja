@@ -12,31 +12,33 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_image"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
+        android:layout_centerVertical="true"
         android:layout_height="wrap_content"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:src="@drawable/upload_profile_pic"
         app:srcCompat="@drawable/group" />
 
     <TextView
         android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_toRightOf="@+id/user_image"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
         android:layout_toEndOf="@+id/user_image"
+        android:layout_centerVertical="true"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:textStyle="bold"
-        android:textSize="16sp"
         android:text="@string/nav_header_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/user_batch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_name"

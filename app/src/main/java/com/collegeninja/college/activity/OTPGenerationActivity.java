@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.collegeninja.college.App;
 import com.fdscollege.college.R;
 
 import org.json.JSONException;
@@ -31,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OTPGenerationActivity extends AppCompatActivity {
-    String _name,_user_type,_stream,_email,_mobile,_city;
+    String _name, _user_type, _stream, _email, _mobile, _city;
     EditText otp;
     Button submit_otp;
     TextView resend;
@@ -56,14 +57,13 @@ public class OTPGenerationActivity extends AppCompatActivity {
         _city = getIntent().getStringExtra("city");
 
 
-
         submit_otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(otp.getText().toString().isEmpty()){
+                if (otp.getText().toString().isEmpty()) {
                     Toast.makeText(OTPGenerationActivity.this, "not a valid OTP", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     dialog.setMessage("please wait.");
                     dialog.show();
                     dialog.setCanceledOnTouchOutside(false);
@@ -110,7 +110,7 @@ public class OTPGenerationActivity extends AppCompatActivity {
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                // Log.i("response :::::: ", "" + response);
+
 
                 JSONObject jsonObject = null;
 
@@ -125,8 +125,9 @@ public class OTPGenerationActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString("token", "Bearer " + token);
                         editor.apply();
+                        App.writeUserPrefs("token", "Bearer " + token);
 
-                        Intent i = new Intent(getApplicationContext(), LandingActivity.class);
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
                     } else {
@@ -177,7 +178,7 @@ public class OTPGenerationActivity extends AppCompatActivity {
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                 Log.i("response :::::: ", "" + response);
+                Log.i("response :::::: ", "" + response);
 
                 JSONObject jsonObject = null;
 

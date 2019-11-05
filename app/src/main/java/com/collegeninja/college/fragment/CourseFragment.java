@@ -56,7 +56,6 @@ public class CourseFragment extends Fragment {
 
         Log.i("token :::::: ", "" + token);
         course = view.findViewById(R.id.course);
-
         course.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.item_offset);
         course.addItemDecoration(itemDecoration);
@@ -77,9 +76,7 @@ public class CourseFragment extends Fragment {
                     String success = jsonObject.getString("success");
 
                     if (success.equals("true")) {
-
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
-
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject _jsonObject = jsonArray.getJSONObject(i);
                             HashMap<String, String> map = new HashMap<>();
@@ -93,6 +90,7 @@ public class CourseFragment extends Fragment {
                             map.put("thumb_img", thumb_img_path);
 
                             lib_arrayList.add(map);
+
                         }
 
                         CourseAdapter adapter = new CourseAdapter(getActivity(), lib_arrayList);
@@ -105,7 +103,7 @@ public class CourseFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // Log.e("error is ", "" + error.getMessage());
+                Log.e("error is ", "" + error.getMessage());
             }
         }) {
             @Override
