@@ -53,6 +53,8 @@ public class ArticleDetailActivity extends AppCompatActivity {
         title.setText(_title);
         description.setText(Html.fromHtml(_description));
 
+
+
         Glide.with(getApplicationContext()).load(_header_image).listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFirstResource) {

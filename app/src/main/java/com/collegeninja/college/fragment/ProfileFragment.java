@@ -42,7 +42,9 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.collegeninja.college.App;
 import com.collegeninja.college.activity.LandingActivity;
+import com.collegeninja.college.activity.MainActivity;
 import com.collegeninja.college.utils.VolleyMultipartRequest;
 import com.fdscollege.college.R;
 import com.karumi.dexter.Dexter;
@@ -68,6 +70,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -170,7 +173,7 @@ public class ProfileFragment extends Fragment {
                     dialog.show();
                     dialog.setCanceledOnTouchOutside(false);*/
 
-                    ((LandingActivity)getActivity()).updateProfile(p_name, p_phone, p_email, _city_id,_gender_id, dayOfMonth,month, year, _grades_id, _domain_id);
+                    ((MainActivity)getActivity()).updateProfile(p_name, p_phone, p_email, _city_id,_gender_id, dayOfMonth,month, year, _grades_id, _domain_id);
                     //updateProfile(p_name, p_phone, p_email);
                 } else {
                     Toast.makeText(getActivity(), "check your internet connection and try again!", Toast.LENGTH_SHORT).show();
@@ -490,6 +493,13 @@ public class ProfileFragment extends Fragment {
                         String _domain = _jsonObject.getString("domain");
                         String user_image = _jsonObject.getString("profile_pic");
                         String user_image_path = _jsonObject.getString("user_image_path");
+                        String _image = _jsonObject.getString("profile_pic");
+
+                        App.writeUserPrefs("uName", _name);
+                        App.writeUserPrefs("batch", _academic_status+"/"+_domain);
+                        App.writeUserPrefs("profilePic", _image);
+
+                        ((MainActivity) Objects.requireNonNull(getActivity())).upDateDrawerHeader();
 
                         name.setText(_name);
                         phone.setText(_mobile);
@@ -736,7 +746,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(NetworkResponse response) {
                 dialog.dismiss();
-
+                loadProfileData();
                 Log.d("Response","====>"+response);
             }
         }, new Response.ErrorListener() {

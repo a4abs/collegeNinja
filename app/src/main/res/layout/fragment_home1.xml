@@ -31,7 +31,7 @@
             android:fontFamily="sans-serif"
             android:lineHeight="2dp"
             android:textStyle="bold"
-            android:layout_margin="@dimen/content_padding"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:text="OUR LIBRARY"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -41,8 +41,8 @@
             android:id="@+id/ourlibrary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/content_padding"
-            android:layout_marginRight="@dimen/content_padding"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:minHeight="80dp" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:fontFamily="sans-serif"
             android:lineHeight="2dp"
             android:textStyle="bold"
-            android:layout_margin="@dimen/content_padding"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:text="DOMAINS"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -63,8 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="80dp"
-            android:layout_marginLeft="@dimen/content_padding"
-            android:layout_marginRight="@dimen/content_padding"/>
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
             android:fontFamily="sans-serif"
             android:lineHeight="2dp"
             android:textStyle="bold"
-            android:layout_margin="@dimen/content_padding"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:text="TOP PICK FOR YOU"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -84,8 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="80dp"
-            android:layout_marginLeft="@dimen/content_padding"
-            android:layout_marginRight="@dimen/content_padding" />
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

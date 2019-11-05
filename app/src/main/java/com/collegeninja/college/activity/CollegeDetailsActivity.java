@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.collegeninja.college.App;
 import com.collegeninja.college.adapter.CollegeFeatureAdapter;
 import com.collegeninja.college.adapter.CollegeImagesAdaptor;
 import com.collegeninja.college.adapter.CollegeVideoAdaptor;
@@ -52,7 +53,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
 
     String _id, _name, _description, _thumb_img;
     ImageView header_image;
-    TextView tvTitle, tvDescription, tvBrochure, tvContact;
+    TextView tvTitle, tvDescription, tvBrochure, tvContact, tvExpressInterest;
     RecyclerView rvCourseOffered, rvFeatures, rvGallery, rvVideos;
     ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
     ArrayList<HashMap<String, String>> arrayList_feature = new ArrayList<>();
@@ -98,25 +99,20 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         tvBrochure = findViewById(R.id.brochure);
         tvContact = findViewById(R.id.contact);
         sliderLayout = findViewById(R.id.slider);
+        tvExpressInterest = findViewById(R.id.express_interest);
+        tvExpressInterest.setText("EXPRESS INTEREST");
 
-
-
-
-
-      /*  Glide.with(getApplicationContext()).load(_thumb_img).listener(new RequestListener<String, GlideDrawable>() {
+        tvExpressInterest.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onException(Exception e, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFirstResource) {
-                //holder.progress.setVisibility(View.INVISIBLE);
-                return false;
+            public void onClick(View view) {
+                if(tvExpressInterest.getText().toString().equalsIgnoreCase("THANKS FOR EXPRESSING YOUR INTEREST")){
+                    expressInterest(_id, "remove");
+                } else {
+                    expressInterest(_id, "add");
+                }
             }
+        });
 
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                return false;
-            }
-        }).into(header_image);*/
-
-        //rvCourseOffered.setLayoutManager(new LinearLayoutManager(CollegeDetailsActivity.this, LinearLayoutManager.VERTICAL, false));
         rvCourseOffered.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
         rvCourseOffered.addItemDecoration(itemDecoration);
@@ -134,6 +130,58 @@ public class CollegeDetailsActivity extends AppCompatActivity {
         rvVideos.addItemDecoration(itemDecorationVideos);
     }
 
+    public void expressInterest(final String collegeId, final String expressInterest) {
+        String url = "http://collegeninja.fdstech.solutions/api/express_interest_to_college";
+
+        final StringRequest expInterestCollegeReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    if(success.equals("true")){
+                        JSONObject collegeData = jsonObject.getJSONObject("data");
+                        boolean currentUserInterested = collegeData.getBoolean("current_user_interested");
+                        if(currentUserInterested) {
+                            tvExpressInterest.setText("THANKS FOR EXPRESSING YOUR INTEREST");
+                        } else {
+                            tvExpressInterest.setText("EXPRESS INTEREST");
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", App.readUserPrefs("token"));
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("college_id", collegeId);
+                params.put("action", expressInterest);
+                return params;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(expInterestCollegeReq);
+
+    }
+
     public void loadCollegeDetails(String collegeId) {
         String url = "http://collegeninja.fdstech.solutions/api/get_college_details/"+collegeId;
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -146,10 +194,12 @@ public class CollegeDetailsActivity extends AppCompatActivity {
 
                     if(success.equals("true")){
                         JSONObject collegeData = jsonObject.getJSONObject("data");
+
                         HashMap<String, String> map = new HashMap<>();
                         String id = collegeData.getString("id");
                         String name = collegeData.getString("name");
                         String description = collegeData.getString("description");
+                        boolean currentUserInterested = collegeData.getBoolean("current_user_interested");
                         final String brochure = collegeData.getString("brochure");
                         final String contact = collegeData.getString("contact");
 
@@ -157,6 +207,12 @@ public class CollegeDetailsActivity extends AppCompatActivity {
                         JSONArray courses = collegeData.getJSONArray("courses");
                         JSONArray videos = collegeData.getJSONArray("videos");
                         JSONArray images = collegeData.getJSONArray("images");
+
+                        if(currentUserInterested) {
+                            tvExpressInterest.setText("THANKS FOR EXPRESSING YOUR INTEREST");
+                        } else {
+                            tvExpressInterest.setText("EXPRESS INTEREST");
+                        }
 
                         tvTitle.setText(name);
                         tvDescription.setText(Html.fromHtml(description));

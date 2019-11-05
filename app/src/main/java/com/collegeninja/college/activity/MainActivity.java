@@ -1,5 +1,6 @@
 package com.collegeninja.college.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -24,6 +25,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -125,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         tvUserName = headerLayout.findViewById(R.id.user_name);
         tvUserBatch = headerLayout.findViewById(R.id.user_batch);
 
+        Log.d("APP","===>"+App.readUserPrefs("uName"));
+
         if(!App.readUserPrefs("uName").isEmpty()){
             tvUserName.setText(App.readUserPrefs("uName"));
         } else {
@@ -184,7 +188,6 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
     @Override
     public void onSearchConfirmed(CharSequence text) {
-        Log.d("====>", "===" + text);
         Intent i = new Intent(getApplicationContext(), ActivityArticleSearch.class);
         i.putExtra("search_text", text.toString());
         startActivity(i);
@@ -200,6 +203,19 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         transaction.replace(R.id.nav_host_layout, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void upDateDrawerHeader() {
+        tvUserName.setText(App.readUserPrefs("uName"));
+        tvUserBatch.setText(App.readUserPrefs("batch"));
+
+        if(App.readUserPrefs("profilePic") != null){
+            byte[] decodedString = Base64.decode(App.readUserPrefs("profilePic"), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            imvUserImage.setImageBitmap(decodedByte);
+        } else {
+            imvUserImage.setImageResource(R.drawable.upload_profile_pic);
+        }
     }
 
     private void loadProfileData() {
@@ -220,23 +236,15 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
                         String _academic_status = _jsonObject.getString("academic_status");
                         String _domain = _jsonObject.getString("domain");
                         String _image = _jsonObject.getString("profile_pic");
-
+                        Log.d("Name","====>"+_name);
                         App.writeUserPrefs("uName", _name);
                         App.writeUserPrefs("batch", _academic_status+"/"+_domain);
                         App.writeUserPrefs("profilePic", _image);
 
-                        if(!App.readUserPrefs("uName").isEmpty()){
-                            tvUserName.setText(App.readUserPrefs("uName"));
-                        } else {
-                            tvUserName.setText("");
-                        }
+                        tvUserName.setText(App.readUserPrefs("uName"));
+                        tvUserBatch.setText(App.readUserPrefs("batch"));
 
-                        if(!App.readUserPrefs("batch").isEmpty()){
-                            tvUserBatch.setText(App.readUserPrefs("batch"));
-                        } else {
-                            tvUserBatch.setText("");
-                        }
-                        if(App.readUserPrefs("profilePic") != null){
+                        if(_image != null){
                             byte[] decodedString = Base64.decode(App.readUserPrefs("profilePic"), Base64.DEFAULT);
                             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                             imvUserImage.setImageBitmap(decodedByte);
@@ -247,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.d("Error","==>"+e);
                 }
             }
         }, new Response.ErrorListener() {
@@ -274,6 +283,71 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }
+
+    // UpdateUserProfile
+    public void updateProfile(final String p_name, final String p_phone, final String p_email, final String _city_id, final String _gender_id, final int dayOfMonth, final int month, final int year, final String _grades_id, final String _domain_id) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+
+        dialog.setMessage("please wait.");
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+
+        String url = "http://collegeninja.fdstech.solutions/api/update_user_profile";
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                dialog.dismiss();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    loadProfileData();
+
+                    if (success.equals("true")) {
+                        Toast.makeText(MainActivity.this, "profile updated successfully", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", App.readUserPrefs("token"));
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                MyData.put("name", p_name);
+                MyData.put("mobile", p_phone);
+                MyData.put("email", p_email);
+                MyData.put("city", _city_id);
+                MyData.put("gender", _gender_id);
+                MyData.put("dob_day", String.valueOf(dayOfMonth));
+                MyData.put("dob_month", String.valueOf(month));
+                MyData.put("dob_year", String.valueOf(year));
+                MyData.put("academic_status", _grades_id);
+                MyData.put("domain", _domain_id);
+                MyData.put("user_image", "");
+                return MyData;
+            }
+        };
+
+        MyRequestQueue.add(request);
+
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
