@@ -236,10 +236,12 @@ public class CollegeDetailsActivity extends AppCompatActivity {
                         tvContact.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                Log.d("Click","Call");
                                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                                 callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 callIntent.setData(Uri.parse("tel:" + contact));
                                 if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(CollegeDetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 0);
                                     // TODO: Consider calling
                                     //    ActivityCompat#requestPermissions
                                     // here to request the missing permissions, and then overriding
@@ -247,6 +249,7 @@ public class CollegeDetailsActivity extends AppCompatActivity {
                                     //                                          int[] grantResults)
                                     // to handle the case where the user grants the permission. See the documentation
                                     // for ActivityCompat#requestPermissions for more details.
+                                    Log.d("Info","===Call Permiss");
                                     return;
                                 }
                                 getApplicationContext().startActivity(callIntent);
