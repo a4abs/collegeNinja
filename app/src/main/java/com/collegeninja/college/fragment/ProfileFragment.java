@@ -479,8 +479,7 @@ public class ProfileFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
-
-    private void loadProfileData() {
+ private void loadProfileData() {
         String url = "http://collegeninja.fdstech.solutions/api/get_user_pref";
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -514,7 +513,7 @@ public class ProfileFragment extends Fragment {
                         String user_image_path = _jsonObject.getString("user_image_path");
                         String _image = _jsonObject.getString("profile_pic");
                         String pref_domain_name = _jsonObject.getString("pref_domain_name");
-                        Log.d("pref_domain_name","==>"+pref_domain_name);
+
                         App.writeUserPrefs("uName", _name);
                         App.writeUserPrefs("batch", _academic_status+"/"+pref_domain_name);
                         App.writeUserPrefs("profilePic", _image);

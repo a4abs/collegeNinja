@@ -237,9 +237,9 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
                         String _academic_status = _jsonObject.getString("academic_status");
                         String _domain = _jsonObject.getString("domain");
                         String _image = _jsonObject.getString("profile_pic");
-                        Log.d("Name","====>"+_domain);
+                        String pref_domain_name = _jsonObject.getString("pref_domain_name");
                         App.writeUserPrefs("uName", _name);
-                        App.writeUserPrefs("batch", _academic_status+"/"+_domain);
+                        App.writeUserPrefs("batch", _academic_status+"/"+pref_domain_name);
                         App.writeUserPrefs("profilePic", _image);
 
                         tvUserName.setText(App.readUserPrefs("uName"));
@@ -340,6 +340,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
                 MyData.put("dob_year", String.valueOf(year));
                 MyData.put("academic_status", _grades_id);
                 MyData.put("domain", _domain_id);
+                MyData.put("pref_domain", _domain_id);
                 MyData.put("user_image", "");
                 return MyData;
             }
