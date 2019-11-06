@@ -513,9 +513,10 @@ public class ProfileFragment extends Fragment {
                         String user_image = _jsonObject.getString("profile_pic");
                         String user_image_path = _jsonObject.getString("user_image_path");
                         String _image = _jsonObject.getString("profile_pic");
-
+                        String pref_domain_name = _jsonObject.getString("pref_domain_name");
+                        Log.d("pref_domain_name","==>"+pref_domain_name);
                         App.writeUserPrefs("uName", _name);
-                        App.writeUserPrefs("batch", _academic_status+"/"+_domain);
+                        App.writeUserPrefs("batch", _academic_status+"/"+pref_domain_name);
                         App.writeUserPrefs("profilePic", _image);
 
                         ((MainActivity) Objects.requireNonNull(getActivity())).upDateDrawerHeader();
