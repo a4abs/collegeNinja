@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.collegeninja.college.activity.ArticleActivity;
+import com.collegeninja.college.activity.CollegesActivity;
 import com.collegeninja.college.activity.CourseDetailActivity;
 import com.fdscollege.college.R;
 
@@ -61,9 +62,25 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyView> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mcon.startActivity(new Intent(mcon, CourseDetailActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("id",_id).putExtra("title",_name).putExtra("description",arrayList.get(position).get("description")).putExtra("image",arrayList.get(position).get("thumb_img")));
+                Intent intent = new Intent(mcon, CollegesActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("id",_id);
+                intent.putExtra("title",_name);
+                intent.putExtra("domain",arrayList.get(position).get("domain"));
+                intent.putExtra("description",arrayList.get(position).get("description"));
+                intent.putExtra("image", arrayList.get(position).get("thumb_img"));
+                intent.putExtra("colleges", arrayList.get(position).get("colleges"));
+
+                mcon.startActivity(intent);
             }
         });
+
+      /*  holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mcon.startActivity(new Intent(mcon, CourseDetailActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("id",_id).putExtra("title",_name).putExtra("description",arrayList.get(position).get("description")).putExtra("image",arrayList.get(position).get("thumb_img")));
+            }
+        });*/
     }
 
     @Override

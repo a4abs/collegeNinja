@@ -3,6 +3,7 @@ package com.collegeninja.college.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -121,6 +122,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
+                    Log.d("Couse","===>"+jsonObject);
                     String success = jsonObject.getString("success");
 
                     if (success.equals("true")) {

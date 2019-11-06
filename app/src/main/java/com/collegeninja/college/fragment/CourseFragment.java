@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.collegeninja.college.App;
 import com.collegeninja.college.adapter.CourseAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
 import com.fdscollege.college.R;
@@ -74,7 +75,7 @@ public class CourseFragment extends Fragment {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
-
+                    Log.d("Courses","===>"+jsonObject);
                     if (success.equals("true")) {
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -83,11 +84,14 @@ public class CourseFragment extends Fragment {
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
                             String thumb_img_path = _jsonObject.getString("course_img");
+                            String colleges = _jsonObject.getJSONArray("colleges").toString();
 
                             map.put("id", id);
-                            Log.d("Tina", name);
                             map.put("name", name);
                             map.put("thumb_img", thumb_img_path);
+                            map.put("colleges", colleges);
+                            map.put("domain", "");
+                            map.put("image", null);
 
                             lib_arrayList.add(map);
 
@@ -111,7 +115,7 @@ public class CourseFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", token);
+                params.put("Authorization", App.readUserPrefs("token"));
                 return params;
             }
 
