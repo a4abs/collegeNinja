@@ -8,14 +8,6 @@
     android:orientation="vertical"
     tools:context="com.collegeninja.college.activity.ArticleActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:theme="@style/AppToolbar"
-        android:background="@color/colorPrimary" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -43,7 +35,5 @@
                 android:padding="5dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-
 
 </LinearLayout>

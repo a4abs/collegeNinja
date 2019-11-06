@@ -43,6 +43,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.App;
+import com.collegeninja.college.activity.BaseActivity;
 import com.collegeninja.college.activity.LandingActivity;
 import com.collegeninja.college.activity.MainActivity;
 import com.collegeninja.college.utils.VolleyMultipartRequest;
@@ -173,7 +174,7 @@ public class ProfileFragment extends Fragment {
                     dialog.show();
                     dialog.setCanceledOnTouchOutside(false);*/
 
-                    ((MainActivity)getActivity()).updateProfile(p_name, p_phone, p_email, _city_id,_gender_id, dayOfMonth,month, year, _grades_id, _domain_id);
+                    ((BaseActivity)getActivity()).updateProfile(p_name, p_phone, p_email, _city_id,_gender_id, dayOfMonth,month, year, _grades_id, _domain_id);
                     //updateProfile(p_name, p_phone, p_email);
                 } else {
                     Toast.makeText(getActivity(), "check your internet connection and try again!", Toast.LENGTH_SHORT).show();
@@ -499,7 +500,7 @@ public class ProfileFragment extends Fragment {
                         App.writeUserPrefs("batch", _academic_status+"/"+_domain);
                         App.writeUserPrefs("profilePic", _image);
 
-                        ((MainActivity) Objects.requireNonNull(getActivity())).upDateDrawerHeader();
+                        ((BaseActivity) Objects.requireNonNull(getActivity())).upDateDrawerHeader();
 
                         name.setText(_name);
                         phone.setText(_mobile);
