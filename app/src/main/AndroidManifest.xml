@@ -22,7 +22,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name="com.collegeninja.college.activity.CollegeCourseDetails"></activity>
+        <activity android:name="com.collegeninja.college.activity.BaseActivity"></activity>
+        <activity android:name="com.collegeninja.college.activity.CollegeCourseDetails" />
         <activity
             android:name="com.collegeninja.college.activity.MainActivity"
             android:label="@string/title_activity_main"

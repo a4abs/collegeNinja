@@ -20,10 +20,8 @@ import android.view.MenuItem;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.ui.AppBarConfiguration;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,9 +56,8 @@ import kotlin.jvm.functions.Function1;
 
 public class MainActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private AppBarConfiguration mAppBarConfiguration;
-    private MaterialSearchBar mSearchViewHome;
-    private MeowBottomNavigation bottomNavigation;
+    MaterialSearchBar mSearchViewHome;
+    MeowBottomNavigation bottomNavigation;
     CircleImageView imvUserImage;
     TextView tvUserName, tvUserBatch;
 
@@ -89,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.persion));
         bottomNavigation.show(1, true);
         loadFragment(new HomeFragment());
+
         bottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model p1) {
@@ -127,8 +125,6 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         tvUserName = headerLayout.findViewById(R.id.user_name);
         tvUserBatch = headerLayout.findViewById(R.id.user_batch);
 
-        Log.d("APP","===>"+App.readUserPrefs("uName"));
-
         if(!App.readUserPrefs("uName").isEmpty()){
             tvUserName.setText(App.readUserPrefs("uName"));
         } else {
@@ -151,19 +147,16 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
+       /* mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
                 R.id.nav_tools, R.id.nav_share, R.id.nav_send)
                 .setDrawerLayout(drawer)
-                .build();
+                .build();*/
         /*NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);*/
 
-
         loadProfileData();
-
-        Log.d("Saved","==>"+App.readUserPrefs("token"));
     }
 
     @Override

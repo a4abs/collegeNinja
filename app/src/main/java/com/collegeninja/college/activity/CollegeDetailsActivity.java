@@ -49,7 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CollegeDetailsActivity extends AppCompatActivity {
+public class CollegeDetailsActivity extends BaseActivity {
 
     String _id, _name, _description, _thumb_img;
     ImageView header_image;
