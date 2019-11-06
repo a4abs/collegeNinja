@@ -383,7 +383,7 @@ public class ProfileFragment extends Fragment {
 
     void loadGradeData() {
         String url = "http://collegeninja.fdstech.solutions/api/get_grades";
-        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -416,18 +416,28 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", token);
+                return params;
+            }
+        };
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
 
     void loadDomain() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_streams";
-        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+        String url = "http://collegeninja.fdstech.solutions/api/get_domains";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.d("response","==>"+response);
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
                     if (success.equals("true")) {
@@ -455,14 +465,23 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", token);
+                return params;
+            }
+        };;
 
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
 
     private void loadProfileData() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_profile";
+        String url = "http://collegeninja.fdstech.solutions/api/get_user_pref";
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

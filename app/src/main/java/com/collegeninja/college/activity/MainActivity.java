@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
             tvUserName.setText("");
         }
 
+        Log.d("Batch","==="+App.readUserPrefs("batch"));
         if(!App.readUserPrefs("batch").isEmpty()){
             tvUserBatch.setText(App.readUserPrefs("batch"));
         } else {
@@ -236,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
                         String _academic_status = _jsonObject.getString("academic_status");
                         String _domain = _jsonObject.getString("domain");
                         String _image = _jsonObject.getString("profile_pic");
-                        Log.d("Name","====>"+_name);
+                        Log.d("Name","====>"+_domain);
                         App.writeUserPrefs("uName", _name);
                         App.writeUserPrefs("batch", _academic_status+"/"+_domain);
                         App.writeUserPrefs("profilePic", _image);
@@ -287,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
     // UpdateUserProfile
     public void updateProfile(final String p_name, final String p_phone, final String p_email, final String _city_id, final String _gender_id, final int dayOfMonth, final int month, final int year, final String _grades_id, final String _domain_id) {
         final ProgressDialog dialog = new ProgressDialog(this);
-
+        Log.d("_domain_id","===>"+_domain_id);
         dialog.setMessage("please wait.");
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
