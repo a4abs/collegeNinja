@@ -1,5 +1,6 @@
 package com.collegeninja.college.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -24,11 +25,12 @@ import java.util.HashMap;
  public class GridTopPicture extends RecyclerView.Adapter<GridTopPicture.MyView> {
 
     private ArrayList<HashMap<String, String>> arrayList;
-
+    private Activity mActivity;
     private Context mcon;
 
-    public GridTopPicture(Context context, ArrayList<HashMap<String, String>> arrayList) {
+    public GridTopPicture(Activity activity, Context context, ArrayList<HashMap<String, String>> arrayList) {
         mcon = context;
+        mActivity = activity;
         this.arrayList = arrayList;
     }
 
@@ -65,7 +67,7 @@ import java.util.HashMap;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mcon.startActivity(new Intent(mcon, ArticleActivity.class).putExtra("id",_id).putExtra("title",_name));
+                mActivity.startActivity(new Intent(mcon, ArticleActivity.class).putExtra("id",_id).putExtra("title",_name));
             }
         });
 

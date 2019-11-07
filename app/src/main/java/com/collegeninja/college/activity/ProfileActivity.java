@@ -213,6 +213,8 @@ public class ProfileActivity extends BaseActivity {
                     _domain_id = arrayListDomainIds.get(position);
                     _domain_name = arrayListDomainName.get(position);
 
+                   // spinnerDomain.setSelection(position);
+
                 } catch (Exception exc) {
                     exc.printStackTrace();
                 }
@@ -257,7 +259,7 @@ public class ProfileActivity extends BaseActivity {
                 int initialYear = calendar.get(Calendar.YEAR);
                 int initialMonth = calendar.get(Calendar.MONTH);
                 int initialDay = calendar.get(Calendar.DAY_OF_MONTH);
-                new SupportedDatePickerDialog(getApplicationContext(), R.style.SpinnerDatePickerDialogTheme, new SupportedDatePickerDialog.OnDateSetListener() {
+                new SupportedDatePickerDialog(ProfileActivity.this, R.style.SpinnerDatePickerDialogTheme, new SupportedDatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(@NotNull DatePicker datePicker, int yr, int mnth, int day) {
                         dayOfMonth = day;
@@ -337,8 +339,8 @@ public class ProfileActivity extends BaseActivity {
                             arrayListCityName.add(name);
                         }
 
-                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, arrayListCityName);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, arrayListCityName);
+                        adapter.setDropDownViewResource(R.layout.spinner_item);
                         spinnerCity.setAdapter(adapter);
 
                         fetchGrades();
@@ -380,8 +382,8 @@ public class ProfileActivity extends BaseActivity {
                             arrayListGradeName.add(name);
                         }
 
-                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, arrayListDomainName);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, arrayListGradeName);
+                        adapter.setDropDownViewResource(R.layout.spinner_item);
                         spinnerAcademicStatus.setAdapter(adapter);
 
                         fetchDomain();
@@ -418,8 +420,8 @@ public class ProfileActivity extends BaseActivity {
                             arrayListDomainIds.add(id);
                             arrayListDomainName.add(name);
                         }
-                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, arrayListDomainName);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, arrayListDomainName);
+                        adapter.setDropDownViewResource(R.layout.spinner_item);
                         spinnerDomain.setAdapter(adapter);
 
                         fetchProfileData();
@@ -509,7 +511,7 @@ public class ProfileActivity extends BaseActivity {
 
                         int domain_pos = arrayListDomainIds.indexOf("" + _domain_id);
                         spinnerDomain.setSelection(domain_pos);
-
+                        Log.d("===>","==="+spinnerDomain.getSelectedItem());
 
                         try {
                             int _gender_id = _jsonObject.getInt("gender_id");

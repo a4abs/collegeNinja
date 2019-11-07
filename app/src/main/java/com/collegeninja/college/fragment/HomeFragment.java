@@ -131,7 +131,7 @@ public class HomeFragment extends Fragment {
 
                         //Collections.reverse(lib_arrayList);
 
-                        GridOurLibrary adapter= new GridOurLibrary(getActivity(), lib_arrayList);
+                        GridOurLibrary adapter= new GridOurLibrary(getActivity(), getContext(), lib_arrayList);
                         ourlibrary.setAdapter(adapter);
                     }
                 } catch (JSONException e) {
@@ -195,7 +195,7 @@ public class HomeFragment extends Fragment {
                             domain_arrayList.add(map);
                         }
 
-                        GridDomainLibrary _adapter= new GridDomainLibrary(getActivity(), domain_arrayList);
+                        GridDomainLibrary _adapter= new GridDomainLibrary(getActivity(), getContext(), domain_arrayList);
                         domain.setAdapter(_adapter);
                     }
                 } catch (JSONException e) {
@@ -275,7 +275,7 @@ public class HomeFragment extends Fragment {
 
                         //Collections.reverse(toppic_arrayList);
 
-                        GridTopPicture _adapter= new GridTopPicture(getActivity(), toppic_arrayList);
+                        GridTopPicture _adapter= new GridTopPicture(getActivity(), getContext(), toppic_arrayList);
                         top_pic.setAdapter(_adapter);
 
                        /* for(int i = 0; i< toppic_arrayList.size(); i++) {

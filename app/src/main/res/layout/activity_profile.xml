@@ -119,6 +119,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/border"
                     android:minHeight="45dp"
+                    android:textColor="@color/black"
                     android:padding="10dp"
                     android:text="DOB" />
 

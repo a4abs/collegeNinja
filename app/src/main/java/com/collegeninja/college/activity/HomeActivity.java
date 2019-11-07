@@ -4,6 +4,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ import java.util.Map;
 public class HomeActivity extends BaseActivity {
     View view;
     RecyclerView rvLibrary, rvDomain, rvTopPick;
+    Activity activityHome;
 
     ArrayList<HashMap<String,String>> arrayListLibrary = new ArrayList<>();
     ArrayList<HashMap<String,String>> arrayListDomain = new ArrayList<>();
@@ -48,6 +50,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activityHome = this;
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_home, null, false);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -114,7 +117,7 @@ public class HomeActivity extends BaseActivity {
                             arrayListLibrary.add(map);
                         }
 
-                        GridOurLibrary adapter= new GridOurLibrary(getApplicationContext(), arrayListLibrary);
+                        GridOurLibrary adapter= new GridOurLibrary(activityHome, getApplicationContext(), arrayListLibrary);
                         rvLibrary.setAdapter(adapter);
                     }
                 } catch (JSONException e) {
@@ -178,7 +181,7 @@ public class HomeActivity extends BaseActivity {
                             arrayListDomain.add(map);
                         }
 
-                        GridDomainLibrary _adapter= new GridDomainLibrary(getApplicationContext(), arrayListDomain);
+                        GridDomainLibrary _adapter= new GridDomainLibrary(activityHome, getApplicationContext(), arrayListDomain);
                         rvDomain.setAdapter(_adapter);
                     }
                 } catch (JSONException e) {
@@ -256,7 +259,7 @@ public class HomeActivity extends BaseActivity {
 
                         //Collections.reverse(toppic_arrayList);
 
-                        GridTopPicture _adapter= new GridTopPicture(getApplicationContext(), arrayListTopPick);
+                        GridTopPicture _adapter= new GridTopPicture(activityHome, getApplicationContext(), arrayListTopPick);
                         rvTopPick.setAdapter(_adapter);
 
                         sliderLayout.setPresetTransformer(SliderLayout.Transformer.Fade);
