@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
+    android:paddingBottom="?attr/actionBarSize"
     tools:context="com.collegeninja.college.activity.FAQActivity">
 
     <androidx.recyclerview.widget.RecyclerView

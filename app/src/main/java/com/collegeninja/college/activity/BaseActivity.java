@@ -194,18 +194,14 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-
-            case R.id.nav_logout:
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("college", 0);
-                sharedPreferences.edit().clear().apply();
-                startActivity(new Intent(getApplicationContext(), SplashActivity.class));
-                App.clearPreference();
-                return true;
             case R.id.nav_tools:
                 startActivity(new Intent(getApplicationContext(), FAQActivity.class));
                 return true;
             case R.id.nav_contact:
                 startActivity(new Intent(getApplicationContext(), ContactActivity.class));
+                return true;
+            case R.id.nav_settings:
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 return true;
         }
         return false;

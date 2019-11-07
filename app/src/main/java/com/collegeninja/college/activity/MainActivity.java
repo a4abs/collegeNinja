@@ -361,14 +361,6 @@ public class MainActivity extends BaseActivity  {
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment;
         switch (menuItem.getItemId()) {
-
-            case R.id.nav_logout:
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("college", 0);
-                sharedPreferences.edit().clear().apply();
-                startActivity(new Intent(getApplicationContext(),SplashActivity.class));
-                App.clearPreference();
-                return true;
-
             case R.id.navigation_discussion:
                 // toolbar.setTitle("Discussion");
                 fragment = new DiscussionFragment();

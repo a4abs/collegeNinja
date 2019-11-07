@@ -80,7 +80,7 @@ public class CollegesActivity extends BaseActivity {
             for(int i = 0; i < arrayColleges.length(); i++) {
                 JSONObject _jsonObject = arrayColleges.getJSONObject(i);
                 HashMap<String, String> map = new HashMap<>();
-                String id = _jsonObject.getString("id");
+                String collegeId = _jsonObject.getString("id");
                 String name = _jsonObject.getString("name");
                 String description = _jsonObject.getString("description");
                 map.put("id", id);

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.collegeninja.college.activity.CollegeCourseDetails;
 import com.collegeninja.college.activity.CollegeDetailsActivity;
 import com.fdscollege.college.R;
 import com.squareup.picasso.NetworkPolicy;
@@ -69,11 +70,12 @@ public class CourseCollegeAdaptor extends RecyclerView.Adapter<CourseCollegeAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, CollegeDetailsActivity.class);
+                Intent intent = new Intent(mContext, CollegeCourseDetails.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("id", arrayList.get(position).get("id"));
                 intent.putExtra("name", arrayList.get(position).get("name"));
                 intent.putExtra("description", arrayList.get(position).get("description"));
+                intent.putExtra("_thumb_img", _thumb_img);
                 mContext.startActivity(intent);
             }
         });

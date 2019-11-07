@@ -30,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.App;
+import com.collegeninja.college.adapter.CollegeCoursesAdaptor;
 import com.collegeninja.college.adapter.CollegeFeatureAdapter;
 import com.collegeninja.college.adapter.CollegeImagesAdaptor;
 import com.collegeninja.college.adapter.CollegeVideoAdaptor;
@@ -325,7 +326,8 @@ public class CollegeDetailsActivity extends BaseActivity {
                                 String courseImg = _jsonObject.getString("course_img");
                                 String colleges = _jsonObject.getJSONArray("colleges").toString();
 
-                                coursesMap.put("id", courseId);
+                                coursesMap.put("collegeId", _id);
+                                coursesMap.put("courseId", courseId);
                                 coursesMap.put("name", courseName);
                                 coursesMap.put("thumb_img", courseImg);
                                 coursesMap.put("colleges", colleges);
@@ -335,7 +337,7 @@ public class CollegeDetailsActivity extends BaseActivity {
                                 arrayList.add(coursesMap);
                             }
 
-                            CourseDetailAdapter adapter = new CourseDetailAdapter(getApplicationContext(), arrayList);
+                            CollegeCoursesAdaptor adapter = new CollegeCoursesAdaptor(getApplicationContext(), arrayList);
                             rvCourseOffered.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();

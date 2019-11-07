@@ -4,76 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingTop="?attr/actionBarSize"
     android:paddingBottom="?attr/actionBarSize"
-    android:orientation="vertical"
-    tools:context="com.collegeninja.college.activity.CollegeCourseDetails">
+    tools:context="com.collegeninja.college.activity.SettingsActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|start">
-
-                <ImageView
-                    android:id="@+id/header_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="fitXY"
-                    android:minHeight="200dp" />
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/image_gradient">
-
-                    <com.collegeninja.college.utils.TextViewBarlowBold
-                        android:id="@+id/header"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:gravity="start"
-                        android:layout_alignParentBottom="true"
-                        android:padding="@dimen/content_padding"
-                        android:textSize="21sp"
-                        android:lineSpacingExtra="3dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/colorWhite"
-                        />
-
-                </RelativeLayout>
-            </FrameLayout>
-
 
             <com.collegeninja.college.utils.TextViewBarlowBold
-                android:id="@+id/course_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:textAllCaps="true"
+                android:lineHeight="2dp"
                 android:textSize="@dimen/heading_size"
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="@dimen/heading_bottom_margin"
+                android:text="Settings"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorPrimary" />
 
-
-
-
             <com.collegeninja.college.utils.TextViewBarlowBold
-                android:id="@+id/course_eligibility_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -82,44 +42,19 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="@dimen/heading_bottom_margin"
-                android:text="Eligibility"
+                android:text="About Us"
                 android:textColor="@color/normal_text"/>
 
             <TextView
-                android:id="@+id/course_eligibility_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/normal_text"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="@dimen/heading_bottom_margin"
-                />
+                android:textColor="@color/normal_text"
+                android:text="College Ninja is an all-in-one application that'll help you make informed career decisions. The Ninja lets you explore various disruptive career options and recommends the best institutions where you can pursue these degrees. From course selection to college admission, this app manage the most crucial part of your academic path in the simplest way possibe." />
 
             <com.collegeninja.college.utils.TextViewBarlowBold
-                android:id="@+id/course_duration_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textAllCaps="true"
-                android:text="Duration"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/heading_bottom_margin"
-                android:textColor="@color/normal_text"/>
-
-            <TextView
-                android:id="@+id/course_duration_values"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/normal_text"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/heading_bottom_margin"
-                 />
-
-            <com.collegeninja.college.utils.TextViewBarlowBold
-                android:id="@+id/course_fees_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -128,36 +63,55 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="@dimen/heading_bottom_margin"
-                android:text="Fees"
+                android:text="Privacy Policy"
                 android:textColor="@color/normal_text"/>
 
             <TextView
-                android:id="@+id/course_fees_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/normal_text"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="@dimen/heading_bottom_margin"
-                />
+                android:textColor="@color/normal_text"
+                android:text="simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book." />
+
+            <com.collegeninja.college.utils.TextViewBarlowBold
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textAllCaps="true"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/heading_bottom_margin"
+                android:text="Version"
+                android:textColor="@color/normal_text"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/heading_bottom_margin"
+                android:textColor="@color/normal_text"
+                android:text="Version 1.2\nCopyright 2019 iNurture Education Solution Pvt. Ltd.\nAll Right Reserved." />
 
             <Button
-                android:id="@+id/apply_now"
+                android:id="@+id/sign_out"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#FF9800"
-                android:minHeight="50dp"
-                android:text="Apply now"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="25dp"
+                android:background="@color/black_overlay"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="@dimen/heading_bottom_margin"
-                android:textAllCaps="true"
+                android:text="SIGN OUT"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
