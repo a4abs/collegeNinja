@@ -1,15 +1,11 @@
 package com.collegeninja.college.activity;
 
+
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.collegeninja.college.adapter.ArticleAdapter;
+import com.collegeninja.college.App;
+import com.collegeninja.college.adapter.CollegeAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
 import com.fdscollege.college.R;
 
@@ -33,88 +30,73 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActivityArticleSearch extends BaseActivity {
-    RecyclerView articel;
-    ArrayList<HashMap<String,String>> arrayList_articel = new ArrayList<>();
+public class CollegeActivity extends BaseActivity {
 
-    String token = "";
-    TextView header;
+    RecyclerView rvColleges;
+    ArrayList<HashMap<String, String>> arrayListColleges = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_article, null, false);
+        View contentView = inflater.inflate(R.layout.activity_college, null, false);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.addView(contentView, 0);
-       /* setContentView(R.layout.activity_article);*/
+        bottomNavigation.show(2, false);
+        rvColleges = contentView.findViewById(R.id.college_recyclerview);
 
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("OUR LIBRARY");
-        setSupportActionBar(toolbar);
+        rvColleges.setLayoutManager(new GridLayoutManager(this, 2));
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.item_offset);
+        rvColleges.addItemDecoration(itemDecoration);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
-
-        articel = findViewById(R.id.articles);
-        header = findViewById(R.id.header);
-
-        /*toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });*/
-
-
-        articel.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
-        articel.addItemDecoration(itemDecoration);
-
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("college", Context.MODE_PRIVATE);
-        token = pref.getString("token", "");
-
-        //String _id = getIntent().getStringExtra("id");
-        String _search_text = getIntent().getStringExtra("search_text");
-
-        header.setText("Search for "+_search_text);
-
-        loadArticle(_search_text);
-
-
+        fetchColleges();
 
     }
 
-    private void loadArticle(final String _search_text) {
-        String url = "http://collegeninja.fdstech.solutions/api/search_articles";
+    private void fetchColleges() {
+        String url = "http://collegeninja.fdstech.solutions/api/get_all_colleges";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
 
-                    if(success.equals("true")){
+                    if (success.equals("true")) {
+
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                        for(int i = 0; i < jsonArray.length(); i++){
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject _jsonObject = jsonArray.getJSONObject(i);
-                            HashMap<String,String> map = new HashMap<>();
+                            HashMap<String, String> map = new HashMap<>();
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
                             String description = _jsonObject.getString("description");
-                            String thumb_img_path = _jsonObject.getString("img_path");
+                            String brochure = _jsonObject.getString("brochure");
+                            String contact = _jsonObject.getString("contact");
 
-                            map.put("id",id);
-                            map.put("name",name);
-                            map.put("description",description);
-                            map.put("thumb_img",thumb_img_path);
+                            String features = _jsonObject.getJSONArray("features").toString();
+                            String courses = _jsonObject.getJSONArray("courses").toString();
+                            String videos = _jsonObject.getJSONArray("videos").toString();
+                            String images = _jsonObject.getJSONArray("images").toString();
 
-                            arrayList_articel.add(map);
+                            map.put("id", id);
+                            map.put("name", name);
+                            map.put("description", description);
+                            map.put("contact", contact);
+
+                            map.put("thumb_img", images);
+                            map.put("features", features);
+                            map.put("courses", courses);
+                            map.put("images", images);
+                            map.put("brochure", brochure);
+
+                            arrayListColleges.add(map);
                         }
 
-                        ArticleAdapter adapter = new ArticleAdapter(getApplicationContext(), arrayList_articel);
-                        articel.setAdapter(adapter);
+                        CollegeAdapter adapter = new CollegeAdapter(getApplicationContext(), arrayListColleges);
+                        rvColleges.setAdapter(adapter);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -131,19 +113,18 @@ public class ActivityArticleSearch extends BaseActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", token);
+                params.put("Authorization", App.readUserPrefs("token"));
                 return params;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("search_text", _search_text);
                 return params;
             }
         };
 
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(request);
     }
-
 }

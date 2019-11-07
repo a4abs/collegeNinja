@@ -1,4 +1,6 @@
-package com.collegeninja.college.fragment;
+package com.collegeninja.college.activity;
+
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -7,7 +9,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
@@ -16,14 +17,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-;
-import androidx.fragment.app.Fragment;
-
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,11 +40,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.App;
-import com.collegeninja.college.activity.BaseActivity;
-import com.collegeninja.college.activity.LandingActivity;
-import com.collegeninja.college.activity.MainActivity;
 import com.collegeninja.college.utils.VolleyMultipartRequest;
 import com.fdscollege.college.R;
+import com.ibotta.android.support.pickerdialogs.SupportedDatePickerDialog;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -55,7 +50,6 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import  com.ibotta.android.support.pickerdialogs.SupportedDatePickerDialog;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -75,31 +69,26 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+public class ProfileActivity extends BaseActivity {
 
-public class ProfileFragment extends Fragment {
-
-    Spinner city, gender, academic_status, domain;
+    Spinner spinnerCity, spinnerGender, spinnerAcademicStatus, spinnerDomain;
     View view;
 
-    ArrayList<String> city_id = new ArrayList<>();
-    ArrayList<String> city_name = new ArrayList<>();
+    ArrayList<String> arrayListCityIds = new ArrayList<>();
+    ArrayList<String> arrayListCityName = new ArrayList<>();
 
-    ArrayList<String> grades_id = new ArrayList<>();
-    ArrayList<String> grades_name = new ArrayList<>();
+    ArrayList<String> arrayListGradeIds = new ArrayList<>();
+    ArrayList<String> arrayListGradeName = new ArrayList<>();
 
-    ArrayList<String> domain_id = new ArrayList<>();
-    ArrayList<String> domain_name = new ArrayList<>();
+    ArrayList<String> arrayListDomainIds = new ArrayList<>();
+    ArrayList<String> arrayListDomainName = new ArrayList<>();
 
-    String token = "", String, _city_id = "", _city_name = "", _grades_id = "", _grades_name = "", _domain_id = "", _domain_name = "", _gender_id = "", _gender_name = "",base64 = "";
+    String _city_id = "", _city_name = "", _grades_id = "", _grades_name = "", _domain_id = "", _domain_name = "", _gender_id = "", _gender_name = "", base64 = "";
 
-    Button submit;
+    Button buttonSubmit;
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
-    EditText name, phone, email;
-    TextView calender;
+    EditText editTextName, editTextPhone, editTextEmail;
+    TextView tvCalender;
 
     DatePickerDialog datePickerDialog;
     int year;
@@ -112,39 +101,36 @@ public class ProfileFragment extends Fragment {
     private CircleImageView imgViewProfile;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
-    TextView HeaderName, HeaderBatch;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_profile, null, false);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.addView(contentView, 0);
+        bottomNavigation.show(4, false);
 
-        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        spinnerCity = contentView.findViewById(R.id.city);
+        tvCalender = contentView.findViewById(R.id.calender);
+        spinnerGender = contentView.findViewById(R.id.gender);
+        spinnerAcademicStatus = contentView.findViewById(R.id.academic_status);
+        spinnerDomain = contentView.findViewById(R.id.domain);
 
-        city = view.findViewById(R.id.city);
-        calender = view.findViewById(R.id.calender);
-        gender = view.findViewById(R.id.gender);
-        academic_status = view.findViewById(R.id.academic_status);
-        domain = view.findViewById(R.id.domain);
+        editTextName = contentView.findViewById(R.id.name);
+        editTextPhone = contentView.findViewById(R.id.phone);
+        editTextEmail = contentView.findViewById(R.id.email);
+        buttonSubmit = contentView.findViewById(R.id.submit);
 
-        name = view.findViewById(R.id.name);
-        phone = view.findViewById(R.id.phone);
-        email = view.findViewById(R.id.email);
-        submit = view.findViewById(R.id.submit);
-
-        SharedPreferences pref = getActivity().getSharedPreferences("college", 0);
-        token = pref.getString("token", "");
-        Log.i("token :::::: ", "" + token);
-
-
-        dialog = new ProgressDialog(getActivity());
-        dialog.setMessage("please wait.");
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Please wait...");
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
 
-        loadCity();
+        fetchCity();
 
-        btn = (Button) view.findViewById(R.id.btn);
-        imgViewProfile = (CircleImageView) view.findViewById(R.id.profile_image);
+        btn = contentView.findViewById(R.id.btn);
+        imgViewProfile = contentView.findViewById(R.id.profile_image);
 
         imgViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,36 +146,36 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (isNetworkConnected()) {
-                    String p_name = name.getText().toString();
-                    String p_phone = phone.getText().toString();
-                    String p_email = email.getText().toString();
-                    String dob = calender.getText().toString();
+                    String p_name = editTextName.getText().toString();
+                    String p_phone = editTextPhone.getText().toString();
+                    String p_email = editTextPhone.getText().toString();
+                    String dob = tvCalender.getText().toString();
 
                     /*dialog.setMessage("please wait.");
                     dialog.show();
                     dialog.setCanceledOnTouchOutside(false);*/
 
-                    ((BaseActivity)getActivity()).updateProfile(p_name, p_phone, p_email, _city_id,_gender_id, dayOfMonth,month, year, _grades_id, _domain_id);
+                    updateProfile(p_name, p_phone, p_email, _city_id, _gender_id, dayOfMonth, month, year, _grades_id, _domain_id);
                     //updateProfile(p_name, p_phone, p_email);
                 } else {
-                    Toast.makeText(getActivity(), "check your internet connection and try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "check your internet connection and try again!", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
-        city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 try {
-                    _city_id = city_id.get(position);
-                    _city_name = city_name.get(position);
+                    _city_id = arrayListCityIds.get(position);
+                    _city_name = arrayListCityName.get(position);
 
                 } catch (Exception exc) {
                     exc.printStackTrace();
@@ -202,12 +188,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        academic_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerAcademicStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    _grades_id = grades_id.get(position);
-                    _grades_name = grades_name.get(position);
+                    _grades_id = arrayListGradeIds.get(position);
+                    _grades_name = arrayListGradeName.get(position);
                 } catch (Exception exc) {
                     exc.printStackTrace();
                 }
@@ -220,12 +206,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        domain.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerDomain.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    _domain_id = domain_id.get(position);
-                    _domain_name = domain_name.get(position);
+                    _domain_id = arrayListDomainIds.get(position);
+                    _domain_name = arrayListDomainName.get(position);
+
+                   // spinnerDomain.setSelection(position);
 
                 } catch (Exception exc) {
                     exc.printStackTrace();
@@ -239,10 +227,10 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String val = gender.getSelectedItem().toString();
+                String val = spinnerGender.getSelectedItem().toString();
 
                 try {
                     if (val.equals("male")) {
@@ -264,46 +252,36 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        calender.setOnClickListener(new View.OnClickListener() {
+        tvCalender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 calendar = Calendar.getInstance();
                 int initialYear = calendar.get(Calendar.YEAR);
                 int initialMonth = calendar.get(Calendar.MONTH);
                 int initialDay = calendar.get(Calendar.DAY_OF_MONTH);
-                new SupportedDatePickerDialog(getActivity(), R.style.SpinnerDatePickerDialogTheme, new SupportedDatePickerDialog.OnDateSetListener() {
+                new SupportedDatePickerDialog(ProfileActivity.this, R.style.SpinnerDatePickerDialogTheme, new SupportedDatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(@NotNull DatePicker datePicker, int yr, int mnth, int day) {
                         dayOfMonth = day;
                         year = yr;
-                        month = mnth+1;
-                        calender.setText(dayOfMonth + "/" + month + "/" + year);
+                        month = mnth + 1;
+                        tvCalender.setText(dayOfMonth + "/" + month + "/" + year);
                     }
                 }, initialYear, initialMonth, initialDay).show();
-                /*datePickerDialog = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                calender.setText(day + "/" + (month + 1) + "/" + year);
-                            }
-                        }, year, month, dayOfMonth);
-                //datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-
-                datePickerDialog.show();*/
             }
         });
 
         if (!isNetworkConnected()) {
-            Toast.makeText(getActivity(), "check your internet connection and try again!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "check your internet connection and try again!", Toast.LENGTH_SHORT).show();
         }
 
         requestMultiplePermissions();
 
-        return view;
+
     }
 
-    private void  requestMultiplePermissions(){
-        Dexter.withActivity(getActivity())
+    private void requestMultiplePermissions() {
+        Dexter.withActivity(this)
                 .withPermissions(
                         Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -313,7 +291,7 @@ public class ProfileFragment extends Fragment {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(getActivity(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
                         }
 
                         // check for permanent denial of any permission
@@ -331,14 +309,15 @@ public class ProfileFragment extends Fragment {
                 withErrorListener(new PermissionRequestErrorListener() {
                     @Override
                     public void onError(DexterError error) {
-                        Toast.makeText(getActivity(), "Some Error! ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Some Error! ", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .onSameThread()
                 .check();
     }
 
-    private void loadCity() {
+
+    private void fetchCity() {
         String url = "http://collegeninja.fdstech.solutions/api/get_cities";
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -356,15 +335,15 @@ public class ProfileFragment extends Fragment {
                             HashMap<String, String> map = new HashMap<>();
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
-                            city_id.add(id);
-                            city_name.add(name);
+                            arrayListCityIds.add(id);
+                            arrayListCityName.add(name);
                         }
 
-                        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, city_name);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        city.setAdapter(adapter);
+                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, arrayListCityName);
+                        adapter.setDropDownViewResource(R.layout.spinner_item);
+                        spinnerCity.setAdapter(adapter);
 
-                        loadGradeData();
+                        fetchGrades();
 
                     }
                 } catch (JSONException e) {
@@ -378,13 +357,13 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
-    void loadGradeData() {
+    void fetchGrades() {
         String url = "http://collegeninja.fdstech.solutions/api/get_grades";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -399,15 +378,15 @@ public class ProfileFragment extends Fragment {
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
 
-                            grades_id.add(id);
-                            grades_name.add(name);
+                            arrayListGradeIds.add(id);
+                            arrayListGradeName.add(name);
                         }
 
-                        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, grades_name);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        academic_status.setAdapter(adapter);
+                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, arrayListGradeName);
+                        adapter.setDropDownViewResource(R.layout.spinner_item);
+                        spinnerAcademicStatus.setAdapter(adapter);
 
-                        loadDomain();
+                        fetchDomain();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -417,28 +396,18 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", token);
-                return params;
-            }
-        };
+        });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
-    void loadDomain() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_domains";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+    void fetchDomain() {
+        String url = "http://collegeninja.fdstech.solutions/api/get_streams";
+        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.d("response","==>"+response);
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
                     if (success.equals("true")) {
@@ -448,14 +417,14 @@ public class ProfileFragment extends Fragment {
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
 
-                            domain_id.add(id);
-                            domain_name.add(name);
+                            arrayListDomainIds.add(id);
+                            arrayListDomainName.add(name);
                         }
-                        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, domain_name);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        domain.setAdapter(adapter);
+                        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, arrayListDomainName);
+                        adapter.setDropDownViewResource(R.layout.spinner_item);
+                        spinnerDomain.setAdapter(adapter);
 
-                        loadProfileData();
+                        fetchProfileData();
 
                     }
                 } catch (JSONException e) {
@@ -466,22 +435,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", token);
-                return params;
-            }
-        };;
+        });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
- private void loadProfileData() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_user_pref";
+
+    private void fetchProfileData() {
+        String url = "http://collegeninja.fdstech.solutions/api/get_profile";
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -513,23 +474,22 @@ public class ProfileFragment extends Fragment {
                         String user_image = _jsonObject.getString("profile_pic");
                         String user_image_path = _jsonObject.getString("user_image_path");
                         String _image = _jsonObject.getString("profile_pic");
-                        String pref_domain_name = _jsonObject.getString("pref_domain_name");
 
                         App.writeUserPrefs("uName", _name);
-                        App.writeUserPrefs("batch", _academic_status+"/"+pref_domain_name);
+                        App.writeUserPrefs("batch", _academic_status + "/" + _domain);
                         App.writeUserPrefs("profilePic", _image);
 
-                        ((BaseActivity) Objects.requireNonNull(getActivity())).upDateDrawerHeader();
+                        upDateDrawerHeader();
 
-                        name.setText(_name);
-                        phone.setText(_mobile);
-                        email.setText(_email);
+                        editTextName.setText(_name);
+                        editTextPhone.setText(_mobile);
+                        editTextEmail.setText(_email);
 
                         year = dob_year;
                         month = dob_month;
                         dayOfMonth = dob_day;
 
-                        if(user_image != null){
+                        if (user_image != null) {
                             byte[] decodedString = Base64.decode(user_image, Base64.DEFAULT);
                             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                             imgViewProfile.setImageBitmap(decodedByte);
@@ -538,28 +498,28 @@ public class ProfileFragment extends Fragment {
                         }
 
                         if (dob_day != 0) {
-                            calender.setText(dob_day + "/" + dob_month + "/" + dob_year);
+                            tvCalender.setText(dob_day + "/" + dob_month + "/" + dob_year);
                         } else {
-                            calender.setText("DOB");
+                            tvCalender.setText("DOB");
                         }
 
-                        int city_pos = city_id.indexOf(""+_city_id);
-                        city.setSelection(city_pos);
+                        int city_pos = arrayListCityIds.indexOf("" + _city_id);
+                        spinnerCity.setSelection(city_pos);
 
-                        int academic_status_pos = grades_id.indexOf(""+_academic_status_id);
-                        academic_status.setSelection(academic_status_pos);
+                        int academic_status_pos = arrayListGradeIds.indexOf("" + _academic_status_id);
+                        spinnerAcademicStatus.setSelection(academic_status_pos);
 
-                        int domain_pos = domain_id.indexOf(""+_domain_id);
-                        domain.setSelection(domain_pos);
-
+                        int domain_pos = arrayListDomainIds.indexOf("" + _domain_id);
+                        spinnerDomain.setSelection(domain_pos);
+                        Log.d("===>","==="+spinnerDomain.getSelectedItem());
 
                         try {
                             int _gender_id = _jsonObject.getInt("gender_id");
 
                             if (_gender_id == 1) {
-                                gender.setSelection(1);
+                                spinnerGender.setSelection(1);
                             } else if (_gender_id == 2) {
-                                gender.setSelection(2);
+                                spinnerGender.setSelection(2);
                             } else {
                             }
                         } catch (Exception exc) {
@@ -576,9 +536,9 @@ public class ProfileFragment extends Fragment {
                         String _email = _jsonObject.getString("email");
                         String _mobile = _jsonObject.getString("mobile");
 
-                        name.setText(_name);
-                        phone.setText(_mobile);
-                        email.setText(_email);
+                        editTextName.setText(_name);
+                        editTextPhone.setText(_mobile);
+                        editTextEmail.setText(_email);
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
@@ -596,7 +556,7 @@ public class ProfileFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", token);
+                params.put("Authorization", App.readUserPrefs("token"));
                 return params;
             }
 
@@ -607,78 +567,21 @@ public class ProfileFragment extends Fragment {
             }
         };
 
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(request);
     }
 
-    private void updateProfile(final String p_name, final String p_phone, final String p_email) {
-
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(getActivity());
-
-        String url = "http://collegeninja.fdstech.solutions/api/update_user_profile";
-        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                dialog.dismiss();
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    if (success.equals("true")) {
-                        Toast.makeText(getActivity(), "profile updated successfully", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                dialog.dismiss();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", token);
-                return params;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> MyData = new HashMap<String, String>();
-                MyData.put("name", p_name);
-                MyData.put("mobile", p_phone);
-                MyData.put("email", p_email);
-                MyData.put("city", _city_id);
-                MyData.put("gender", _gender_id);
-                MyData.put("dob_day", String.valueOf(dayOfMonth));
-                MyData.put("dob_month", String.valueOf(month));
-                MyData.put("dob_year", String.valueOf(year));
-                MyData.put("academic_status", _grades_id);
-                MyData.put("domain", _domain_id);
-                MyData.put("user_image", "");
-                return MyData;
-            }
-        };
-
-        MyRequestQueue.add(request);
-
-    }
-
     private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
-    private void showPictureDialog(){
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
+    private void showPictureDialog() {
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
         pictureDialog.setTitle("Select Action");
         String[] pictureDialogItems = {
                 "Select photo from gallery",
-                "Capture photo from camera" };
+                "Capture photo from camera"};
         pictureDialog.setItems(pictureDialogItems,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -712,25 +615,25 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_CANCELED) {
+        if (resultCode == this.RESULT_CANCELED) {
             return;
         }
         if (requestCode == GALLERY) {
             if (data != null) {
                 Uri contentURI = data.getData();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
                     String imageFile = saveImage(bitmap);
                     base64 = encodeTobase64(bitmap);
 
-                    Toast.makeText(getActivity(),"Image Saved!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     imgViewProfile.setImageBitmap(bitmap);
 
                     uploadProfilePic(base64, bitmap);
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -739,7 +642,7 @@ public class ProfileFragment extends Fragment {
             imgViewProfile.setImageBitmap(thumbnail);
             String imageFile = saveImage(thumbnail);
             base64 = encodeTobase64(thumbnail);
-            Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Image Saved!", Toast.LENGTH_SHORT).show();
             uploadProfilePic(base64, thumbnail);
         }
     }
@@ -750,8 +653,8 @@ public class ProfileFragment extends Fragment {
         return byteArrayOutputStream.toByteArray();
     }
 
-    private void uploadProfilePic(final String base64, final Bitmap imageFile){
-        dialog = new ProgressDialog(getActivity());
+    private void uploadProfilePic(final String base64, final Bitmap imageFile) {
+        dialog = new ProgressDialog(this);
 
         dialog.setMessage("please wait.");
         dialog.show();
@@ -766,21 +669,18 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(NetworkResponse response) {
                 dialog.dismiss();
-                loadProfileData();
-                Log.d("Response","====>"+response);
+                fetchProfileData();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 dialog.dismiss();
-
-                Log.d("====>", "=="+error);
             }
-        }){
+        }) {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
-                params.put("Authorization", token);
+                params.put("Authorization", App.readUserPrefs("token"));
                 return params;
             }
 
@@ -807,16 +707,17 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        Volley.newRequestQueue(getActivity()).add(volleyMultipartRequest);
+        Volley.newRequestQueue(this).add(volleyMultipartRequest);
     }
+
     private void loadPic(final String base64, File imageFile) {
-        dialog = new ProgressDialog(getActivity());
+        dialog = new ProgressDialog(this);
 
         dialog.setMessage("please wait.");
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
 
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
         String url = "http://collegeninja.fdstech.solutions/api/update_user_profile_pic";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -824,23 +725,11 @@ public class ProfileFragment extends Fragment {
             public void onResponse(String response) {
                 dialog.dismiss();
 
-                Log.d("Response","===>"+response);
-
-//                try {
-//                    JSONObject jsonObject = new JSONObject(response);
-//                    String success = jsonObject.getString("success");
-//
-//                    if (success.equals("true")) {
-//                        Toast.makeText(getActivity(), "profile updated successfully", Toast.LENGTH_SHORT).show();
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Error:ImageUpload", "==>"+error);
+                Log.d("Error:ImageUpload", "==>" + error);
                 dialog.dismiss();
             }
         }) {
@@ -849,7 +738,7 @@ public class ProfileFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", token);
+                params.put("Authorization", App.readUserPrefs("token"));
                 return params;
             }
 
@@ -868,7 +757,7 @@ public class ProfileFragment extends Fragment {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
+
         if (!wallpaperDirectory.exists()) {
             wallpaperDirectory.mkdirs();
         }
@@ -878,10 +767,8 @@ public class ProfileFragment extends Fragment {
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(getActivity(), new String[]{f.getPath()}, new String[]{"image/jpeg"}, null);
+            MediaScannerConnection.scanFile(this, new String[]{f.getPath()}, new String[]{"image/jpeg"}, null);
             fo.close();
-            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
-
             return f.getAbsolutePath();
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -890,12 +777,11 @@ public class ProfileFragment extends Fragment {
     }
 
     public static String encodeTobase64(Bitmap image) {
-        Bitmap immagex = image;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immagex.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-        Log.i("imageEncoded :::::: ", "" + imageEncoded);
-        return imageEncoded;
+        return Base64.encodeToString(b, Base64.DEFAULT);
     }
+
+
 }

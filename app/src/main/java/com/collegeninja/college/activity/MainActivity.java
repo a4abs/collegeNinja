@@ -1,6 +1,7 @@
 package com.collegeninja.college.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -15,15 +16,14 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.ui.AppBarConfiguration;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,39 +56,46 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-public class MainActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity  {
 
-    private AppBarConfiguration mAppBarConfiguration;
-    private MaterialSearchBar mSearchViewHome;
-    private MeowBottomNavigation bottomNavigation;
+    MaterialSearchBar mSearchViewHome;
+    MeowBottomNavigation bottomNavigation;
     CircleImageView imvUserImage;
     TextView tvUserName, tvUserBatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.content_main, null, false);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.addView(contentView, 0);
 
+        loadFragment(new HomeFragment());
+
+        //setContentView(R.layout.activity_main);
+       /* Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);*/
+/*
         mSearchViewHome = findViewById(R.id.search_view);
         mSearchViewHome.setHint("Search");
-        mSearchViewHome.setOnSearchActionListener(this);
+        mSearchViewHome.setOnSearchActionListener(this);*/
 
-
+/*
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
 
-        bottomNavigation =  findViewById(R.id.bottom_navigation);
+      /*  bottomNavigation =  findViewById(R.id.bottom_navigation);
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.home));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.college));
         bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.courses));
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.persion));
         bottomNavigation.show(1, true);
-        loadFragment(new HomeFragment());
+        loadFragment(new HomeFragment());*/
+/*
         bottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model p1) {
@@ -114,20 +121,18 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
                 }
                 return Unit.INSTANCE;
             }
-        });
+        });*/
 
         
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+       /* NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(this);*/
 
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+       /* View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         imvUserImage = headerLayout.findViewById(R.id.user_image);
         tvUserName = headerLayout.findViewById(R.id.user_name);
         tvUserBatch = headerLayout.findViewById(R.id.user_batch);
-
-        Log.d("APP","===>"+App.readUserPrefs("uName"));
 
         if(!App.readUserPrefs("uName").isEmpty()){
             tvUserName.setText(App.readUserPrefs("uName"));
@@ -135,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
             tvUserName.setText("");
         }
 
-        Log.d("Batch","==="+App.readUserPrefs("batch"));
         if(!App.readUserPrefs("batch").isEmpty()){
             tvUserBatch.setText(App.readUserPrefs("batch"));
         } else {
@@ -148,26 +152,31 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
             imvUserImage.setImageBitmap(decodedByte);
         } else {
             imvUserImage.setImageResource(R.drawable.upload_profile_pic);
-        }
+        }*/
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
+       /* mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
                 R.id.nav_tools, R.id.nav_share, R.id.nav_send)
                 .setDrawerLayout(drawer)
-                .build();
+                .build();*/
         /*NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);*/
 
-
-        loadProfileData();
-
-        Log.d("Saved","==>"+App.readUserPrefs("token"));
+        // loadProfileData();
     }
 
-    @Override
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.nav_host_layout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -176,9 +185,9 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
     @Override
     public boolean onSupportNavigateUp() {
-       /* NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+       *//* NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();*/
+                || super.onSupportNavigateUp();*//*
         return false;
     }
 
@@ -205,8 +214,8 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
-    public void upDateDrawerHeader() {
+*/
+   /* public void upDateDrawerHeader() {
         tvUserName.setText(App.readUserPrefs("uName"));
         tvUserBatch.setText(App.readUserPrefs("batch"));
 
@@ -217,78 +226,76 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         } else {
             imvUserImage.setImageResource(R.drawable.upload_profile_pic);
         }
-    }
+    }*/
 
-    private void loadProfileData() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_profile/";
-        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+    /* private void loadProfileData() {
+         String url = "http://collegeninja.fdstech.solutions/api/get_profile/";
+         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+             @Override
+             public void onResponse(String response) {
 
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
+                 try {
+                     JSONObject jsonObject = new JSONObject(response);
+                     String success = jsonObject.getString("success");
 
-                    if (success.equals("true")) {
-                        JSONObject _jsonObject = jsonObject.getJSONObject("data");
+                     if (success.equals("true")) {
+                         JSONObject _jsonObject = jsonObject.getJSONObject("data");
 
-                        Log.i("profile ::::", "" + _jsonObject);
-                        String _name = _jsonObject.getString("name");
-                        String _academic_status = _jsonObject.getString("academic_status");
-                        String _domain = _jsonObject.getString("domain");
-                        String _image = _jsonObject.getString("profile_pic");
-                        String pref_domain_name = _jsonObject.getString("pref_domain_name");
-                        App.writeUserPrefs("uName", _name);
-                        App.writeUserPrefs("batch", _academic_status+"/"+pref_domain_name);
-                        App.writeUserPrefs("profilePic", _image);
+                         String _name = _jsonObject.getString("name");
+                         String _academic_status = _jsonObject.getString("academic_status");
+                         String _domain = _jsonObject.getString("domain");
+                         String _image = _jsonObject.getString("profile_pic");
+                         App.writeUserPrefs("uName", _name);
+                         App.writeUserPrefs("batch", _academic_status+"/"+_domain);
+                         App.writeUserPrefs("profilePic", _image);
 
-                        tvUserName.setText(App.readUserPrefs("uName"));
-                        tvUserBatch.setText(App.readUserPrefs("batch"));
+                         tvUserName.setText(App.readUserPrefs("uName"));
+                         tvUserBatch.setText(App.readUserPrefs("batch"));
 
-                        if(_image != null){
-                            byte[] decodedString = Base64.decode(App.readUserPrefs("profilePic"), Base64.DEFAULT);
-                            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                            imvUserImage.setImageBitmap(decodedByte);
-                        } else {
-                            imvUserImage.setImageResource(R.drawable.upload_profile_pic);
-                        }
-                    }
+                         if(_image != null){
+                             byte[] decodedString = Base64.decode(App.readUserPrefs("profilePic"), Base64.DEFAULT);
+                             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                             imvUserImage.setImageBitmap(decodedByte);
+                         } else {
+                             imvUserImage.setImageResource(R.drawable.upload_profile_pic);
+                         }
+                     }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d("Error","==>"+e);
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Log.e("error is ", "" + error.getMessage());
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Accept", "application/json");
-                params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("Authorization", App.readUserPrefs("token"));
-                return params;
-            }
+                 } catch (JSONException e) {
+                     e.printStackTrace();
+                     Log.d("Error","==>"+e);
+                 }
+             }
+         }, new Response.ErrorListener() {
+             @Override
+             public void onErrorResponse(VolleyError error) {
+                 // Log.e("error is ", "" + error.getMessage());
+             }
+         }) {
+             @Override
+             public Map<String, String> getHeaders() throws AuthFailureError {
+                 Map<String, String> params = new HashMap<String, String>();
+                 params.put("Accept", "application/json");
+                 params.put("Content-Type", "application/x-www-form-urlencoded");
+                 params.put("Authorization", App.readUserPrefs("token"));
+                 return params;
+             }
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
-            }
-        };
+             @Override
+             protected Map<String, String> getParams() {
+                 Map<String, String> params = new HashMap<String, String>();
+                 return params;
+             }
+         };
 
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        queue.add(request);
-    }
+         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+         queue.add(request);
+     }
 
-    // UpdateUserProfile
-    public void updateProfile(final String p_name, final String p_phone, final String p_email, final String _city_id, final String _gender_id, final int dayOfMonth, final int month, final int year, final String _grades_id, final String _domain_id) {
+ */    // UpdateUserProfile
+  /*  public void updateProfile(final String p_name, final String p_phone, final String p_email, final String _city_id, final String _gender_id, final int dayOfMonth, final int month, final int year, final String _grades_id, final String _domain_id) {
         final ProgressDialog dialog = new ProgressDialog(this);
-        Log.d("_domain_id","===>"+_domain_id);
+
         dialog.setMessage("please wait.");
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
@@ -340,7 +347,6 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
                 MyData.put("dob_year", String.valueOf(year));
                 MyData.put("academic_status", _grades_id);
                 MyData.put("domain", _domain_id);
-                MyData.put("pref_domain", _domain_id);
                 MyData.put("user_image", "");
                 return MyData;
             }
@@ -350,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
 
     }
 
-
+*/
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment;
@@ -387,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         return false;
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -401,5 +407,5 @@ public class MainActivity extends AppCompatActivity implements MaterialSearchBar
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SubDomainsActivity extends AppCompatActivity {
+public class SubDomainsActivity extends BaseActivity {
 
     RecyclerView rvSubdomain;
     String id, name, token;
@@ -42,7 +44,11 @@ public class SubDomainsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sub_domains);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_sub_domains, null, false);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.addView(contentView, 0);
+        //setContentView(R.layout.activity_sub_domains);
 
         rvSubdomain = findViewById(R.id.subdomain);
         header = findViewById(R.id.header);
@@ -50,7 +56,7 @@ public class SubDomainsActivity extends AppCompatActivity {
         id = getIntent().getStringExtra("id");
         name = getIntent().getStringExtra("name");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("SUBDOMAINS");
         setSupportActionBar(toolbar);
 
@@ -63,14 +69,13 @@ public class SubDomainsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
+*/
         rvSubdomain.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getApplicationContext(), R.dimen.item_offset);
         rvSubdomain.addItemDecoration(itemDecoration);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("college", Context.MODE_PRIVATE);
         token = pref.getString("token", "");
-        Log.i("token :::::: ", "" + token);
 
         header.setText(name);
 

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CourseDetailActivity extends AppCompatActivity {
+public class CourseDetailActivity extends BaseActivity {
 
     RecyclerView coursedetail;
     String id, name;
@@ -57,7 +59,11 @@ public class CourseDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_detail);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_course_detail, null, false);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.addView(contentView, 0);
+        /*setContentView(R.layout.activity_course_detail);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -65,7 +71,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);*/
 
 
         coursedetail = findViewById(R.id.coursedetail);
@@ -106,12 +112,12 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         loadCourseDetail(id);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+       /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
-        });
+        });*/
     }
 
     private void loadCourseDetail(String id) {

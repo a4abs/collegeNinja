@@ -5,15 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
+    android:paddingBottom="?attr/actionBarSize"
     tools:context="com.collegeninja.college.activity.CollegeDetailsActivity">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:background="@color/colorPrimary"
-        android:theme="@style/AppToolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

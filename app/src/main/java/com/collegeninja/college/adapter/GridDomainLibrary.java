@@ -1,5 +1,6 @@
 package com.collegeninja.college.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -24,11 +25,12 @@ import java.util.HashMap;
 public class GridDomainLibrary extends RecyclerView.Adapter<GridDomainLibrary.MyView> {
 
     private ArrayList<HashMap<String, String>> arrayList;
-
+    private Activity mActivity;
     private Context mContext;
 
-    public GridDomainLibrary(Context context, ArrayList<HashMap<String, String>> arrayList) {
+    public GridDomainLibrary(Activity activity, Context context, ArrayList<HashMap<String, String>> arrayList) {
         mContext = context;
+        mActivity = activity;
         this.arrayList = arrayList;
     }
 
@@ -70,7 +72,7 @@ public class GridDomainLibrary extends RecyclerView.Adapter<GridDomainLibrary.My
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, SubDomainsActivity.class).putExtra("id",_id).putExtra("name",_name));
+                mActivity.startActivity(new Intent(mContext, SubDomainsActivity.class).putExtra("id",_id).putExtra("name",_name));
             }
         });
 

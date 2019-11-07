@@ -127,7 +127,7 @@ public class OTPGenerationActivity extends AppCompatActivity {
                         editor.apply();
                         App.writeUserPrefs("token", "Bearer " + token);
 
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
                     } else {

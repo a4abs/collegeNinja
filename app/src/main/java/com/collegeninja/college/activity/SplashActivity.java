@@ -27,8 +27,8 @@ public class SplashActivity extends AppCompatActivity {
                         String token = pref.getString("token", "");
 
                         if (token.length() > 10) {
-                            Intent i = new Intent(getBaseContext(), MainActivity.class);
-                            //Intent i=new Intent(getBaseContext(),IntroActivity.class);
+                            Intent i = new Intent(getBaseContext(), HomeActivity.class);
+                            //Intent i=new Intent(getBaseContext(),BaseActivity.class);
                             startActivity(i);
                             finish();
                         } else {
@@ -49,7 +49,6 @@ public class SplashActivity extends AppCompatActivity {
         }
 
     }
-
 
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
