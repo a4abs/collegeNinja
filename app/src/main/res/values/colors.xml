@@ -11,4 +11,6 @@
     <color name="black">#000000</color>
     <color name="color_pressed">#ACDBAE</color>
     <color name="color_released">#FFFFFF</color>
+    <color name="normal_text">#707070</color>
+
 </resources>

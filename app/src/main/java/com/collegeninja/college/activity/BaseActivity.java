@@ -184,7 +184,7 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, HomeActivity.class));
             return true;
         }
 
@@ -200,6 +200,12 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
                 sharedPreferences.edit().clear().apply();
                 startActivity(new Intent(getApplicationContext(), SplashActivity.class));
                 App.clearPreference();
+                return true;
+            case R.id.nav_tools:
+                startActivity(new Intent(getApplicationContext(), FAQActivity.class));
+                return true;
+            case R.id.nav_contact:
+                startActivity(new Intent(getApplicationContext(), ContactActivity.class));
                 return true;
         }
         return false;
