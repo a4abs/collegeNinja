@@ -161,7 +161,6 @@ public class ProfileActivity extends BaseActivity {
                     dialog.setCanceledOnTouchOutside(false);*/
 
                     updateProfile(p_name, p_phone, p_email, _city_id, _gender_id, dayOfMonth, month, year, _grades_id, _domain_id);
-                    //updateProfile(p_name, p_phone, p_email);
                 } else {
                     Toast.makeText(getApplicationContext(), "check your internet connection and try again!", Toast.LENGTH_SHORT).show();
                 }
