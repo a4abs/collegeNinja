@@ -121,11 +121,11 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
             public Unit invoke(MeowBottomNavigation.Model p1) {
                 Fragment fragment;
                 Log.d("Click","Happen"+p1.getId());
+
                 switch (p1.getId()) {
                     case 1:
-                        Log.d("Click","Happen");
-                        fragment = new HomeFragment();
-                        loadFragment(fragment);
+                        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(i);
                         return Unit.INSTANCE;
 
                     case 2:
