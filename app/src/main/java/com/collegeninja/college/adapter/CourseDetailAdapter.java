@@ -2,6 +2,7 @@ package com.collegeninja.college.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +41,18 @@ public class CourseDetailAdapter extends RecyclerView.Adapter<CourseDetailAdapte
     @Override
     public void onBindViewHolder(final MyView holder, final int position) {
 
-        final String _id = arrayList.get(position).get("id");
-        final String _name = arrayList.get(position).get("name");
+        final String courseId = arrayList.get(position).get("courseId");
+        final String collegeId = arrayList.get(position).get("collegeId");
+        final String collegeName = arrayList.get(position).get("name");
+        final String courseName = arrayList.get(position).get("courseName");
         final String _domain = arrayList.get(position).get("domain");
+        /*final String collegeId = arrayListCourses.get(position).get("collegeId");
+        final String courseId = arrayListCourses.get(position).get("courseId");
+        final String courseName = arrayListCourses.get(position).get("courseName");
+        final String collegeName = arrayListCourses.get(position).get("title");
+        final String _domain = arrayListCourses.get(position).get("domain");*/
 
-        holder.header.setText(_name);
+        holder.header.setText(courseName);
 
         Glide.with(mContext).load(arrayList.get(position).get("thumb_img")).listener(new RequestListener<String, GlideDrawable>() {
             @Override
@@ -62,10 +70,13 @@ public class CourseDetailAdapter extends RecyclerView.Adapter<CourseDetailAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("Course","==>"+courseName);
                 Intent intent = new Intent(mContext, CollegesActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("id",_id);
-                intent.putExtra("title",_name);
+                intent.putExtra("collegeId",collegeId);
+                intent.putExtra("courseId",courseId);
+                intent.putExtra("courseName",courseName);
+                intent.putExtra("title",collegeName);
                 intent.putExtra("domain",_domain);
                 intent.putExtra("description",arrayList.get(position).get("description"));
                 intent.putExtra("image", arrayList.get(position).get("thumb_img"));

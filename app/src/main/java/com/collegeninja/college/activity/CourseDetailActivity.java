@@ -120,7 +120,7 @@ public class CourseDetailActivity extends BaseActivity {
         });*/
     }
 
-    private void loadCourseDetail(String id) {
+    private void loadCourseDetail(final String id) {
         String url = "http://collegeninja.fdstech.solutions/api/get_courses/"+id;
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -145,14 +145,16 @@ public class CourseDetailActivity extends BaseActivity {
 
                             HashMap<String, String> map = new HashMap<>();
                             //courseColleges = new ArrayList<>();
-                            String id = _jsonObject.getString("id");
-                            String name = _jsonObject.getString("name");
+                            String courseId = _jsonObject.getString("id");
+                            String courseName = _jsonObject.getString("name");
                             String course_img = _jsonObject.getString("course_img");
                             JSONArray colleges = _jsonObject.getJSONArray("colleges");
 
                             //courseColleges.add(new CourseColleges(id, name, _title, course_img, colleges))
-                            map.put("id", id);
-                            map.put("name", name);
+                            map.put("courseId", courseId);
+                            map.put("collegeId", id);
+                            map.put("collegeName", name);
+                            map.put("courseName", courseName);
                             map.put("thumb_img", course_img);
                             map.put("domain", _title);
                             map.put("colleges", colleges.toString());

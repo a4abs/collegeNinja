@@ -62,11 +62,15 @@ public class CollegesActivity extends BaseActivity {
         rvCourseColleges = findViewById(R.id.course_colleges);
 
         courseId = getIntent().getStringExtra("courseId");
-        courseName = getIntent().getStringExtra("title");
+        courseName = getIntent().getStringExtra("courseName");
         domainName = getIntent().getStringExtra("domain");
         strColleges = getIntent().getStringExtra("colleges");
+        if(domainName.isEmpty()){
+            activityHeading.setText("Colleges offering "+courseName);
+        } else {
+            activityHeading.setText("Colleges offering "+courseName+" in "+domainName);
+        }
 
-        activityHeading.setText("Colleges offering "+courseName+" in "+domainName);
 
         SharedPreferences pref = getSharedPreferences("college", Context.MODE_PRIVATE);
         token = pref.getString("token", "");

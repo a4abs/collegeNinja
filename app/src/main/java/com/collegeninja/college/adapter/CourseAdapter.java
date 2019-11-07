@@ -65,7 +65,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyView> {
                 Intent intent = new Intent(mcon, CollegesActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("courseId",courseId);
-                intent.putExtra("title",_name);
+                intent.putExtra("courseName",_name);
                 intent.putExtra("domain",arrayList.get(position).get("domain"));
                 intent.putExtra("description",arrayList.get(position).get("description"));
                 intent.putExtra("image", arrayList.get(position).get("thumb_img"));
