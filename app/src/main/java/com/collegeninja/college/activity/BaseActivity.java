@@ -113,32 +113,28 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.college));
         bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.courses));
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.persion));
-        //bottomNavigation.show(1, true);
 
 
         bottomNavigation.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model p1) {
-                Fragment fragment;
-                Log.d("Click","Happen"+p1.getId());
-
                 switch (p1.getId()) {
                     case 1:
-                        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(i);
+                        Intent intentHome = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intentHome);
                         return Unit.INSTANCE;
 
                     case 2:
-                        fragment = new CollegesFragment();
-                        loadFragment(fragment);
+                        Intent intentCollege = new Intent(getApplicationContext(), CollegeActivity.class);
+                        startActivity(intentCollege);
                         return Unit.INSTANCE;
                     case 3:
-                        fragment = new CourseFragment();
-                        loadFragment(fragment);
+                        Intent intentCourses = new Intent(getApplicationContext(), CourseActivity.class);
+                        startActivity(intentCourses);
                         return Unit.INSTANCE;
                     case 4:
-                        fragment = new ProfileFragment();
-                        loadFragment(fragment);
+                        Intent intentProfile = new Intent(getApplicationContext(), ProfileActivity.class);
+                        startActivity(intentProfile);
                         return Unit.INSTANCE;
                 }
                 return Unit.INSTANCE;
