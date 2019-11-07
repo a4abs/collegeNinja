@@ -5,10 +5,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,7 +44,7 @@ public class HomeActivity extends BaseActivity {
     View view;
     RecyclerView rvLibrary, rvDomain, rvTopPick;
     Activity activityHome;
-
+    Dialog preferenceDialog;
     ArrayList<HashMap<String,String>> arrayListLibrary = new ArrayList<>();
     ArrayList<HashMap<String,String>> arrayListDomain = new ArrayList<>();
     ArrayList<HashMap<String,String>> arrayListTopPick = new ArrayList<>();
@@ -77,7 +81,7 @@ public class HomeActivity extends BaseActivity {
         ItemOffsetDecoration __itemDecoration = new ItemOffsetDecoration(this, R.dimen.item_offset);
         rvTopPick.addItemDecoration(__itemDecoration);
 
-
+        preferenceDialog = new Dialog(this);
         // NEED RE-FACTORIZATION FOR API CALLS IT MAY CAUSE ERROR
         loadOurLibrary();
 
@@ -85,6 +89,33 @@ public class HomeActivity extends BaseActivity {
 
         loadTopPicture();
 
+        if(!App.readUserPrefs("isPreferenceSet").equalsIgnoreCase("true")) {
+            openSetPermissionPopup();
+        }
+    }
+
+
+    private void openSetPermissionPopup() {
+        preferenceDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        preferenceDialog.setCancelable(false);
+        preferenceDialog.setContentView(R.layout.dialog_set_preferences);
+
+        Button btnSettings = (Button) preferenceDialog.findViewById(R.id.yndialog);
+        btnSettings.setText(R.string.ok);
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                App.writeUserPrefs("isPreferenceSet", "true");
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                preferenceDialog.dismiss();
+                /*Intent intent = new Intent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);*/
+            }
+        });
+
+        preferenceDialog.show();
     }
 
     private void loadOurLibrary() {

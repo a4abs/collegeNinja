@@ -206,6 +206,9 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
             case R.id.nav_news:
                 startActivity(new Intent(getApplicationContext(), LatestNewsActivity.class));
                 return true;
+            case R.id.nav_bookmark:
+                startActivity(new Intent(getApplicationContext(), MyBookmarksActivity.class));
+                return true;
         }
         return false;
     }
