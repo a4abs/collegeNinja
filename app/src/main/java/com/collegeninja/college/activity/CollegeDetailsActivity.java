@@ -10,12 +10,14 @@ import android.net.Uri;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -67,9 +69,13 @@ public class CollegeDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_college_details);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_college_details, null, false);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.addView(contentView, 0);
+        //setContentView(R.layout.activity_college_details);
 
-        //getting the toolbar
+       /* //getting the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("College Details");
         setSupportActionBar(toolbar);
@@ -82,7 +88,7 @@ public class CollegeDetailsActivity extends BaseActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
-        });
+        });*/
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("college", Context.MODE_PRIVATE);
         token = pref.getString("token", "");
