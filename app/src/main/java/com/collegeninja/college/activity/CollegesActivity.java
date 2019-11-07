@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 public class CollegesActivity extends BaseActivity {
 
-    private String id, courseName, domainName,strColleges;
+    private String courseId, courseName, domainName,strColleges;
 
     private TextView activityHeading;
     private RecyclerView rvCourseColleges;
@@ -61,7 +61,7 @@ public class CollegesActivity extends BaseActivity {
         activityHeading = findViewById(R.id.header);
         rvCourseColleges = findViewById(R.id.course_colleges);
 
-        id = getIntent().getStringExtra("id");
+        courseId = getIntent().getStringExtra("courseId");
         courseName = getIntent().getStringExtra("title");
         domainName = getIntent().getStringExtra("domain");
         strColleges = getIntent().getStringExtra("colleges");
@@ -83,9 +83,11 @@ public class CollegesActivity extends BaseActivity {
                 String collegeId = _jsonObject.getString("id");
                 String name = _jsonObject.getString("name");
                 String description = _jsonObject.getString("description");
-                map.put("id", id);
-                map.put("name", name);
-                map.put("description", description);
+                map.put("courseId", courseId);
+                map.put("collegeId", collegeId);
+                map.put("collegeName", name);
+                map.put("courseName", courseName);
+
 
                 arrayListColleges.add(map);
             }

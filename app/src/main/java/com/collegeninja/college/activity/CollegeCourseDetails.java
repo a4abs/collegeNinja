@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CollegeCourseDetails extends BaseActivity {
-    String strCourseId, strCollegeId, strCollegeName, strImageUrl, strEligibility, strDuration, strFees;
+    String strCourseId, strCollegeId, strCollegeName, strCourseName, strImageUrl, strEligibility, strDuration, strFees;
     TextView tvHeader;
     ImageView imvHeaderImage;
     TextView tvCourseName, tvEligibilityLabel, tvEligibilityValue, tvDurationLabel, tvDurationValue, tvFeesLabel, tvFeesValue;
@@ -62,11 +62,12 @@ public class CollegeCourseDetails extends BaseActivity {
         strCourseId = getIntent().getStringExtra("courseId");
 
         strCollegeName = getIntent().getStringExtra("title");
+        strCourseName = getIntent().getStringExtra("courseName");
         strImageUrl = getIntent().getStringExtra("image");
 
         tvHeader.setText(strCollegeName);
 
-        tvCourseName.setText(strCollegeName);
+        tvCourseName.setText(strCourseName);
 
         Glide.with(getApplicationContext()).load(strImageUrl).listener(new RequestListener<String, GlideDrawable>() {
             @Override

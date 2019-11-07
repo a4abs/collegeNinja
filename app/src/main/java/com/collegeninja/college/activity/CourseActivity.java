@@ -71,7 +71,7 @@ public class CourseActivity extends BaseActivity {
                             String thumb_img_path = _jsonObject.getString("course_img");
                             String colleges = _jsonObject.getJSONArray("colleges").toString();
 
-                            map.put("id", id);
+                            map.put("courseId", id);
                             map.put("name", name);
                             map.put("thumb_img", thumb_img_path);
                             map.put("colleges", colleges);

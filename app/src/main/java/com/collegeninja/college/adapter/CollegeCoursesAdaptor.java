@@ -43,12 +43,11 @@ public class CollegeCoursesAdaptor extends RecyclerView.Adapter<CollegeCoursesAd
     public void onBindViewHolder(@NonNull CollegeCoursesAdaptor.MyView holder, final int position) {
         final String collegeId = arrayListCourses.get(position).get("collegeId");
         final String courseId = arrayListCourses.get(position).get("courseId");
-        final String _name = arrayListCourses.get(position).get("name");
+        final String courseName = arrayListCourses.get(position).get("courseName");
+        final String collegeName = arrayListCourses.get(position).get("title");
         final String _domain = arrayListCourses.get(position).get("domain");
 
-        holder.header.setText(_name);
-
-        holder.header.setText(_name);
+        holder.header.setText(courseName);
 
         Glide.with(mContext).load(arrayListCourses.get(position).get("thumb_img")).listener(new RequestListener<String, GlideDrawable>() {
             @Override
@@ -68,10 +67,11 @@ public class CollegeCoursesAdaptor extends RecyclerView.Adapter<CollegeCoursesAd
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CollegeCourseDetails.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("collegeId",courseId);
+                intent.putExtra("collegeId",collegeId);
                 intent.putExtra("courseId",courseId);
-                intent.putExtra("title",_name);
+                intent.putExtra("title",collegeName);
                 intent.putExtra("domain",_domain);
+                intent.putExtra("courseName",courseName);
                 intent.putExtra("description",arrayListCourses.get(position).get("description"));
                 intent.putExtra("image", arrayListCourses.get(position).get("thumb_img"));
                 intent.putExtra("colleges", arrayListCourses.get(position).get("colleges"));

@@ -41,7 +41,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyView> {
     @Override
     public void onBindViewHolder(final MyView holder, final int position) {
 
-        final String _id = arrayList.get(position).get("id");
+        final String courseId = arrayList.get(position).get("courseId");
         final String _name = arrayList.get(position).get("name");
 
         holder.header.setText(_name);
@@ -64,7 +64,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.MyView> {
             public void onClick(View v) {
                 Intent intent = new Intent(mcon, CollegesActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("id",_id);
+                intent.putExtra("courseId",courseId);
                 intent.putExtra("title",_name);
                 intent.putExtra("domain",arrayList.get(position).get("domain"));
                 intent.putExtra("description",arrayList.get(position).get("description"));

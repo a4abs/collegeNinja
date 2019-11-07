@@ -54,7 +54,7 @@ import java.util.Map;
 
 public class CollegeDetailsActivity extends BaseActivity {
 
-    String _id, _name, _description, _thumb_img;
+    String _id, _name, _description, _thumb_img, strCollegeName;
     ImageView header_image;
     TextView tvTitle, tvDescription, tvBrochure, tvContact, tvExpressInterest;
     RecyclerView rvCourseOffered, rvFeatures, rvGallery, rvVideos;
@@ -220,7 +220,7 @@ public class CollegeDetailsActivity extends BaseActivity {
                         } else {
                             tvExpressInterest.setText("EXPRESS INTEREST");
                         }
-
+                        strCollegeName = name;
                         tvTitle.setText(name);
                         tvDescription.setText(Html.fromHtml(description));
 
@@ -328,7 +328,8 @@ public class CollegeDetailsActivity extends BaseActivity {
 
                                 coursesMap.put("collegeId", _id);
                                 coursesMap.put("courseId", courseId);
-                                coursesMap.put("name", courseName);
+                                coursesMap.put("courseName", courseName);
+                                coursesMap.put("title", strCollegeName);
                                 coursesMap.put("thumb_img", courseImg);
                                 coursesMap.put("colleges", colleges);
                                 coursesMap.put("domain", "");

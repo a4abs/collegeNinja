@@ -43,11 +43,13 @@ public class CourseCollegeAdaptor extends RecyclerView.Adapter<CourseCollegeAdap
     @Override
     public void onBindViewHolder(final CourseCollegeAdaptor.MyView holder, final int position) {
 
-        final String _id = arrayList.get(position).get("id");
-        final String _name = arrayList.get(position).get("name");
+        final String courseId = arrayList.get(position).get("courseId");
+        final String collegeId = arrayList.get(position).get("collegeId");
+        final String collegeName = arrayList.get(position).get("collegeName");
+        final String courseName = arrayList.get(position).get("courseName");
         final String _thumb_img = arrayList.get(position).get("thumb_img");
 
-        holder.header.setText(_name);
+        holder.header.setText(collegeName);
 
 
        // try {
@@ -72,10 +74,12 @@ public class CourseCollegeAdaptor extends RecyclerView.Adapter<CourseCollegeAdap
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CollegeCourseDetails.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("id", arrayList.get(position).get("id"));
-                intent.putExtra("name", arrayList.get(position).get("name"));
+                intent.putExtra("courseId", courseId);
+                intent.putExtra("collegeId", collegeId);
+                intent.putExtra("title",collegeName);
+                intent.putExtra("courseName",courseName);
                 intent.putExtra("description", arrayList.get(position).get("description"));
-                intent.putExtra("_thumb_img", _thumb_img);
+                intent.putExtra("image", _thumb_img);
                 mContext.startActivity(intent);
             }
         });
