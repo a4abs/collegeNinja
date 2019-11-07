@@ -4,23 +4,27 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <com.collegeninja.college.utils.TextViewBarlowBold
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:padding="5dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="#000" />
+        android:textSize="18sp"
+        android:textAllCaps="true"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/heading_bottom_margin"
+        android:textColor="@color/normal_text"/>
+
 
     <TextView
         android:id="@+id/discussion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:fontFamily="sans-serif"
-        android:padding="5dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/heading_bottom_margin"
+        android:textColor="@color/normal_text"
+         />
 
-        android:textColor="#000" />
 </LinearLayout>
