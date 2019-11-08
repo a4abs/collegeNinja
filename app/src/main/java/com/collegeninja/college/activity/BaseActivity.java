@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,6 +37,7 @@ import com.collegeninja.college.fragment.CollegesFragment;
 import com.collegeninja.college.fragment.CourseFragment;
 import com.collegeninja.college.fragment.HomeFragment;
 import com.collegeninja.college.fragment.ProfileFragment;
+import com.collegeninja.college.utils.ShowMessageDialog;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.fdscollege.college.R;
 import com.google.android.material.navigation.NavigationView;
@@ -60,6 +62,8 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
     MeowBottomNavigation bottomNavigation;
     CircleImageView imvUserImage;
     TextView tvUserName, tvUserBatch;
+
+    Dialog preferencesUpdatedDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +94,8 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
         tvUserName = headerLayout.findViewById(R.id.user_name);
         tvUserBatch = headerLayout.findViewById(R.id.user_batch);
 
+        preferencesUpdatedDialog = new Dialog(this);
+
         if (!App.readUserPrefs("uName").isEmpty()) {
             tvUserName.setText(App.readUserPrefs("uName"));
         } else {
@@ -102,7 +108,7 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
             tvUserBatch.setText("");
         }
 
-        if (App.readUserPrefs("profilePic") != null) {
+        if (App.readUserPrefs("profilePic") != null || !App.readUserPrefs("profilePic").isEmpty()) {
             byte[] decodedString = Base64.decode(App.readUserPrefs("profilePic"), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             imvUserImage.setImageBitmap(decodedByte);
@@ -219,7 +225,7 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
         tvUserName.setText(App.readUserPrefs("uName"));
         tvUserBatch.setText(App.readUserPrefs("batch"));
 
-        if (App.readUserPrefs("profilePic") != null) {
+        if (App.readUserPrefs("profilePic") != null || !App.readUserPrefs("profilePic").isEmpty()) {
             byte[] decodedString = Base64.decode(App.readUserPrefs("profilePic"), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             imvUserImage.setImageBitmap(decodedByte);
@@ -296,7 +302,6 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
     // UpdateUserProfile
     public void updateProfile(final String p_name, final String p_phone, final String p_email, final String _city_id, final String _gender_id, final int dayOfMonth, final int month, final int year, final String _grades_id, final String _domain_id) {
         final ProgressDialog dialog = new ProgressDialog(this);
-        Log.d("Name", "===>" + p_email);
         dialog.setMessage("please wait.");
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
@@ -314,6 +319,8 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
                     loadProfileData();
 
                     if (success.equals("true")) {
+                        ShowMessageDialog showMessageDialog = new ShowMessageDialog();
+                        showMessageDialog.displayDialog(BaseActivity.this, "profile and preferences updated successfully");
                         Toast.makeText(BaseActivity.this, "profile updated successfully", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
@@ -373,6 +380,5 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
         } catch (UnsupportedEncodingException errorr) {
         }
     }
-
 
 }

@@ -86,6 +86,7 @@ public class CollegeCourseDetails extends BaseActivity {
     }
 
     private void fetchCourseDetails(final String collegeId, final String courseId){
+        Log.d("Cid csid","===>"+collegeId+"=="+courseId);
         String url = "http://ninza.fdstech.solutions/api/get_college_course_details";
         dialog = new ProgressDialog(this);
         dialog.setMessage("Please wait...");
@@ -96,9 +97,11 @@ public class CollegeCourseDetails extends BaseActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
+
                     String success = jsonObject.getString("success");
                     if(success.equals("true")){
                         JSONObject courseData = jsonObject.getJSONObject("data");
+                        Log.d("===>","==="+courseData);
                         strEligibility = courseData.getString("eligibility");
                         strDuration = courseData.getString("duration");
                         strFees = courseData.getString("fee");

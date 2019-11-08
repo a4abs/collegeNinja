@@ -1,6 +1,7 @@
 package com.collegeninja.college.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.text.Html;
@@ -20,7 +21,7 @@ import com.fdscollege.college.R;
 
 public class ArticleDetailActivity extends BaseActivity {
 
-    ImageView header_image;
+    ImageView header_image, imvShareArticle;
     TextView title,description;
     String _header_image,_title,_description;
 
@@ -31,6 +32,29 @@ public class ArticleDetailActivity extends BaseActivity {
         View contentView = inflater.inflate(R.layout.activity_article_detail, null, false);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.addView(contentView, 0);
+
+        imvShareArticle = findViewById(R.id.share_article);
+
+        header_image = findViewById(R.id.header_image);
+        title = findViewById(R.id.title);
+        description = findViewById(R.id.description);
+
+        _header_image = getIntent().getStringExtra("image");
+        _title = getIntent().getStringExtra("title");
+        _description = getIntent().getStringExtra("desc");
+
+        imvShareArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(Intent.ACTION_SEND);
+                myIntent.setType("text/plain");
+                String shareBody = _description;
+                String shareSub = _title;
+                myIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
+                myIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(myIntent, "Share With"));
+            }
+        });
        /* setContentView(R.layout.activity_article_detail);
 
         //getting the toolbar
@@ -49,13 +73,7 @@ public class ArticleDetailActivity extends BaseActivity {
         });*/
 
 
-        header_image = findViewById(R.id.header_image);
-        title = findViewById(R.id.title);
-        description = findViewById(R.id.description);
 
-        _header_image = getIntent().getStringExtra("image");
-        _title = getIntent().getStringExtra("title");
-        _description = getIntent().getStringExtra("desc");
 
         title.setText(_title);
         description.setText(Html.fromHtml(_description));
