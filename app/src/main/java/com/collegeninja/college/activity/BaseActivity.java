@@ -203,18 +203,23 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_tools:
+                finish();
                 startActivity(new Intent(getApplicationContext(), FAQActivity.class));
                 return true;
             case R.id.nav_contact:
+                finish();
                 startActivity(new Intent(getApplicationContext(), ContactActivity.class));
                 return true;
             case R.id.nav_settings:
+                finish();
                 startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 return true;
             case R.id.nav_news:
+                finish();
                 startActivity(new Intent(getApplicationContext(), LatestNewsActivity.class));
                 return true;
             case R.id.nav_bookmark:
+                finish();
                 startActivity(new Intent(getApplicationContext(), MyBookmarksActivity.class));
                 return true;
         }

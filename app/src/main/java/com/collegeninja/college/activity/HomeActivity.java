@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -45,12 +46,13 @@ public class HomeActivity extends BaseActivity {
     RecyclerView rvLibrary, rvDomain, rvTopPick;
     Activity activityHome;
     Dialog preferenceDialog;
-    ArrayList<HashMap<String,String>> arrayListLibrary = new ArrayList<>();
-    ArrayList<HashMap<String,String>> arrayListDomain = new ArrayList<>();
-    ArrayList<HashMap<String,String>> arrayListTopPick = new ArrayList<>();
+    ArrayList<HashMap<String, String>> arrayListLibrary = new ArrayList<>();
+    ArrayList<HashMap<String, String>> arrayListDomain = new ArrayList<>();
+    ArrayList<HashMap<String, String>> arrayListTopPick = new ArrayList<>();
 
     SliderLayout sliderLayout;
-    HashMap<String,String> hashMapSlider ;
+    HashMap<String, String> hashMapSlider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +91,7 @@ public class HomeActivity extends BaseActivity {
 
         loadTopPicture();
 
-        if(!App.readUserPrefs("isPreferenceSet").equalsIgnoreCase("true")) {
+        if (!App.readUserPrefs("isPreferenceSet").equalsIgnoreCase("true")) {
             openSetPermissionPopup();
         }
     }
@@ -130,25 +132,25 @@ public class HomeActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
 
-                    if(success.equals("true")){
+                    if (success.equals("true")) {
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                        for(int i = 0; i < jsonArray.length(); i++){
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject _jsonObject = jsonArray.getJSONObject(i);
-                            HashMap<String,String> map = new HashMap<>();
+                            HashMap<String, String> map = new HashMap<>();
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
                             String thumb_img = _jsonObject.getString("thumb_img");
                             String thumb_img_path = _jsonObject.getString("thumb_img_path");
 
-                            map.put("id",id);
-                            map.put("name",name);
-                            map.put("thumb_img",thumb_img_path);
+                            map.put("id", id);
+                            map.put("name", name);
+                            map.put("thumb_img", thumb_img_path);
 
                             arrayListLibrary.add(map);
                         }
 
-                        GridOurLibrary adapter= new GridOurLibrary(activityHome, getApplicationContext(), arrayListLibrary);
+                        GridOurLibrary adapter = new GridOurLibrary(activityHome, getApplicationContext(), arrayListLibrary);
                         rvLibrary.setAdapter(adapter);
                     }
                 } catch (JSONException e) {
@@ -169,6 +171,7 @@ public class HomeActivity extends BaseActivity {
                 params.put("Authorization", App.readUserPrefs("token"));
                 return params;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
@@ -193,26 +196,26 @@ public class HomeActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
 
-                    if(success.equals("true")){
+                    if (success.equals("true")) {
 
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                        for(int i = 0; i < jsonArray.length(); i++){
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject _jsonObject = jsonArray.getJSONObject(i);
-                            HashMap<String,String> map = new HashMap<>();
+                            HashMap<String, String> map = new HashMap<>();
 
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
-                            String thumb_img =_jsonObject.getString("img_path");
+                            String thumb_img = _jsonObject.getString("img_path");
 
-                            map.put("id",id);
-                            map.put("name",name);
-                            map.put("thumb_img",thumb_img);
+                            map.put("id", id);
+                            map.put("name", name);
+                            map.put("thumb_img", thumb_img);
 
                             arrayListDomain.add(map);
                         }
 
-                        GridDomainLibrary _adapter= new GridDomainLibrary(activityHome, getApplicationContext(), arrayListDomain);
+                        GridDomainLibrary _adapter = new GridDomainLibrary(activityHome, getApplicationContext(), arrayListDomain);
                         rvDomain.setAdapter(_adapter);
                     }
                 } catch (JSONException e) {
@@ -233,6 +236,7 @@ public class HomeActivity extends BaseActivity {
                 params.put("Authorization", App.readUserPrefs("token"));
                 return params;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
@@ -248,7 +252,7 @@ public class HomeActivity extends BaseActivity {
 
         arrayListTopPick.clear();
 
-        String url = "http://collegeninja.fdstech.solutions/api/get_libraries";
+        String url = "http://collegeninja.fdstech.solutions/api/get_latest_articles";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -258,39 +262,55 @@ public class HomeActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
 
-                    if(success.equals("true")){
+                    if (success.equals("true")) {
 
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                        for(int i = 0; i < jsonArray.length(); i++){
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject _jsonObject = jsonArray.getJSONObject(i);
 
-                            HashMap<String,String> map = new HashMap<>();
+                            HashMap<String, String> map = new HashMap<>();
                             String id = _jsonObject.getString("id");
-                            String name = _jsonObject.getString("name");
-                            String thumb_img_path = _jsonObject.getString("thumb_img_path");
+                            final String name = _jsonObject.getString("name");
+                            String thumb_img_path = _jsonObject.getString("img_path");
+                            String description = _jsonObject.getString("description");
 
-                            map.put("id",id);
-                            map.put("name",name);
+                            map.put("id", id);
+                            map.put("name", name);
+                            map.put("thumb_img", thumb_img_path);
+                            map.put("description", description);
 
-                            map.put("thumb_img",thumb_img_path);
                             arrayListTopPick.add(map);
-                            hashMapSlider.put(name,thumb_img_path);
+                            hashMapSlider.put(name, thumb_img_path);
                             TextSliderView textSliderView = new TextSliderView(getApplicationContext());
                             textSliderView
                                     .description(name)
                                     .image(thumb_img_path)
                                     .setScaleType(BaseSliderView.ScaleType.Fit);
+                            textSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                                @Override
+                                public void onSliderClick(BaseSliderView slider) {
+                                    int sliderPosition = sliderLayout.getCurrentPosition();
+
+                                    Intent intent = new Intent(getApplicationContext(), ArticleDetailActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("image", arrayListTopPick.get(sliderPosition).get("thumb_img"));
+                                    intent.putExtra("title", arrayListTopPick.get(sliderPosition).get("name"));
+                                    intent.putExtra("desc", arrayListTopPick.get(sliderPosition).get("description"));
+
+                                    startActivity(intent);
+                                }
+                            });
                             textSliderView.bundle(new Bundle());
                             textSliderView.getBundle()
-                                    .putString("extra",name);
+                                    .putString("extra", name);
                             sliderLayout.addSlider(textSliderView);
 
                         }
 
                         //Collections.reverse(toppic_arrayList);
 
-                        GridTopPicture _adapter= new GridTopPicture(activityHome, getApplicationContext(), arrayListTopPick);
+                        GridTopPicture _adapter = new GridTopPicture(activityHome, getApplicationContext(), arrayListTopPick);
                         rvTopPick.setAdapter(_adapter);
 
                         sliderLayout.setPresetTransformer(SliderLayout.Transformer.Fade);
@@ -316,6 +336,7 @@ public class HomeActivity extends BaseActivity {
                 params.put("Authorization", App.readUserPrefs("token"));
                 return params;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
