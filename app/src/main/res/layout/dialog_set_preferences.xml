@@ -34,7 +34,7 @@
         android:padding="10dp"
         android:textSize="18sp"
         android:layout_below="@+id/yn_dialog_message"
-        android:background="@color/orange"
+        android:background="@drawable/btn_style"
         android:text="@string/ok"
         android:textColor="@color/colorWhite" />
 
