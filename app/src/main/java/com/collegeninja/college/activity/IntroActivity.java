@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.collegeninja.college.adapter.IntroAdapter;
+import com.collegeninja.college.adapter.IntroductionPagerAdaptor;
 import com.fdscollege.college.R;
 
 public class IntroActivity extends AppCompatActivity {
@@ -16,12 +17,8 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        mViewPager = (ViewPager) findViewById(R.id.intro_viewpager);
-
-        mViewPager.setAdapter(new IntroAdapter(getSupportFragmentManager()));
-
-
-
+        mViewPager = findViewById(R.id.intro_viewpager);
+        mViewPager.setAdapter(new IntroductionPagerAdaptor(getSupportFragmentManager()));
 
     }
 }

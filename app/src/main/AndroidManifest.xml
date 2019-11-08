@@ -100,7 +100,7 @@
         <activity
             android:name="com.collegeninja.college.activity.SignUpActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name="com.collegeninja.college.activity.SelectGradeActivity"
             android:screenOrientation="portrait" />
