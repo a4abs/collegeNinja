@@ -41,9 +41,11 @@ import com.fdscollege.college.R;
 import com.google.android.material.navigation.NavigationView;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -227,7 +229,7 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
     }
 
     private void loadProfileData() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_profile/";
+        String url = "http://collegeninja.fdstech.solutions/api/get_user_pref";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -243,8 +245,9 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
                         String _academic_status = _jsonObject.getString("academic_status");
                         String _domain = _jsonObject.getString("domain");
                         String _image = _jsonObject.getString("profile_pic");
+                        String pref_domain_name = _jsonObject.getString("pref_domain_name");
                         App.writeUserPrefs("uName", _name);
-                        App.writeUserPrefs("batch", _academic_status + "/" + _domain);
+                        App.writeUserPrefs("batch", _academic_status + "/" + pref_domain_name);
                         App.writeUserPrefs("profilePic", _image);
 
                         tvUserName.setText(App.readUserPrefs("uName"));
@@ -293,7 +296,7 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
     // UpdateUserProfile
     public void updateProfile(final String p_name, final String p_phone, final String p_email, final String _city_id, final String _gender_id, final int dayOfMonth, final int month, final int year, final String _grades_id, final String _domain_id) {
         final ProgressDialog dialog = new ProgressDialog(this);
-
+        Log.d("Name", "===>" + p_email);
         dialog.setMessage("please wait.");
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
@@ -320,6 +323,8 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("Error", "==>" + error);
+                parseVolleyError(error);
                 dialog.dismiss();
             }
         }) {
@@ -345,6 +350,7 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
                 MyData.put("dob_year", String.valueOf(year));
                 MyData.put("academic_status", _grades_id);
                 MyData.put("domain", _domain_id);
+                MyData.put("pref_domain", _domain_id);
                 MyData.put("user_image", "");
                 return MyData;
             }
@@ -352,6 +358,20 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
 
         MyRequestQueue.add(request);
 
+    }
+
+    public void parseVolleyError(VolleyError error) {
+        try {
+            String responseBody = new String(error.networkResponse.data, "utf-8");
+            JSONObject data = new JSONObject(responseBody);
+            Log.d("Error", "==>" + data);
+            JSONArray errors = data.getJSONArray("errors");
+            JSONObject jsonMessage = errors.getJSONObject(0);
+            String message = jsonMessage.getString("message");
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        } catch (JSONException e) {
+        } catch (UnsupportedEncodingException errorr) {
+        }
     }
 
 

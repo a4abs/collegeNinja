@@ -153,7 +153,7 @@ public class ProfileActivity extends BaseActivity {
                 if (isNetworkConnected()) {
                     String p_name = editTextName.getText().toString();
                     String p_phone = editTextPhone.getText().toString();
-                    String p_email = editTextPhone.getText().toString();
+                    String p_email = editTextEmail.getText().toString();
                     String dob = tvCalender.getText().toString();
 
                     /*dialog.setMessage("please wait.");
@@ -362,7 +362,7 @@ public class ProfileActivity extends BaseActivity {
 
     void fetchGrades() {
         String url = "http://collegeninja.fdstech.solutions/api/get_grades";
-        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -395,19 +395,29 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", App.readUserPrefs("token"));
+                return params;
+            }
+        };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
     void fetchDomain() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_streams";
-        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+        String url = "http://collegeninja.fdstech.solutions/api/get_domains";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
+                    Log.d("domains","===>"+jsonObject);
                     String success = jsonObject.getString("success");
                     if (success.equals("true")) {
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -434,14 +444,23 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", App.readUserPrefs("token"));
+                return params;
+            }
+        };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
     private void fetchProfileData() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_profile";
+        String url = "http://collegeninja.fdstech.solutions/api/get_user_pref";
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -473,9 +492,9 @@ public class ProfileActivity extends BaseActivity {
                         String user_image = _jsonObject.getString("profile_pic");
                         String user_image_path = _jsonObject.getString("user_image_path");
                         String _image = _jsonObject.getString("profile_pic");
-
+                        String pref_domain_name = _jsonObject.getString("pref_domain_name");
                         App.writeUserPrefs("uName", _name);
-                        App.writeUserPrefs("batch", _academic_status + "/" + _domain);
+                        App.writeUserPrefs("batch", _academic_status + "/" + pref_domain_name);
                         App.writeUserPrefs("profilePic", _image);
 
                         upDateDrawerHeader();
