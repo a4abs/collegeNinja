@@ -49,6 +49,7 @@ public class HomeActivity extends BaseActivity {
     ArrayList<HashMap<String, String>> arrayListLibrary = new ArrayList<>();
     ArrayList<HashMap<String, String>> arrayListDomain = new ArrayList<>();
     ArrayList<HashMap<String, String>> arrayListTopPick = new ArrayList<>();
+    ArrayList<HashMap<String, String>> arrayListSlider = new ArrayList<>();
 
     SliderLayout sliderLayout;
     HashMap<String, String> hashMapSlider;
@@ -90,6 +91,8 @@ public class HomeActivity extends BaseActivity {
         loadDomain();
 
         loadTopPicture();
+
+        loadSliderImages();
 
         if (!App.readUserPrefs("isPreferenceSet").equalsIgnoreCase("true")) {
             openSetPermissionPopup();
@@ -248,6 +251,98 @@ public class HomeActivity extends BaseActivity {
         queue.add(request);
     }
 
+    private void loadSliderImages(){
+        String url = "http://collegeninja.fdstech.solutions/api/get_latest_articles";
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+
+                    if (success.equals("true")) {
+
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                        for (int i = 0; i < 4; i++) {
+                            JSONObject _jsonObject = jsonArray.getJSONObject(i);
+
+                            HashMap<String, String> map = new HashMap<>();
+                            String id = _jsonObject.getString("id");
+                            final String name = _jsonObject.getString("name");
+                            String thumb_img_path = _jsonObject.getString("img_path");
+                            String description = _jsonObject.getString("description");
+
+                            map.put("id", id);
+                            map.put("name", name);
+                            map.put("thumb_img", thumb_img_path);
+                            map.put("description", description);
+
+                            arrayListSlider.add(map);
+                            TextSliderView textSliderView = new TextSliderView(getApplicationContext());
+                            textSliderView
+                                    .description(name)
+                                    .image(thumb_img_path)
+                                    .setScaleType(BaseSliderView.ScaleType.Fit);
+                            textSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                                @Override
+                                public void onSliderClick(BaseSliderView slider) {
+                                    int sliderPosition = sliderLayout.getCurrentPosition();
+
+                                    Intent intent = new Intent(getApplicationContext(), ArticleDetailActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("image", arrayListSlider.get(sliderPosition).get("thumb_img"));
+                                    intent.putExtra("title", arrayListSlider.get(sliderPosition).get("name"));
+                                    intent.putExtra("desc", arrayListSlider.get(sliderPosition).get("description"));
+
+                                    startActivity(intent);
+                                }
+                            });
+                            textSliderView.bundle(new Bundle());
+                            textSliderView.getBundle()
+                                    .putString("extra", name);
+                            sliderLayout.addSlider(textSliderView);
+
+                        }
+
+                        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Fade);
+                        sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                        sliderLayout.setCustomAnimation(new DescriptionAnimation());
+                        sliderLayout.setDuration(3000);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Log.e("error is ", "" + error.getMessage());
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("Authorization", App.readUserPrefs("token"));
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
+
+    }
+
     private void loadTopPicture() {
 
         arrayListTopPick.clear();
@@ -281,31 +376,6 @@ public class HomeActivity extends BaseActivity {
                             map.put("description", description);
 
                             arrayListTopPick.add(map);
-                            hashMapSlider.put(name, thumb_img_path);
-                            TextSliderView textSliderView = new TextSliderView(getApplicationContext());
-                            textSliderView
-                                    .description(name)
-                                    .image(thumb_img_path)
-                                    .setScaleType(BaseSliderView.ScaleType.Fit);
-                            textSliderView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-                                @Override
-                                public void onSliderClick(BaseSliderView slider) {
-                                    int sliderPosition = sliderLayout.getCurrentPosition();
-
-                                    Intent intent = new Intent(getApplicationContext(), ArticleDetailActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra("image", arrayListTopPick.get(sliderPosition).get("thumb_img"));
-                                    intent.putExtra("title", arrayListTopPick.get(sliderPosition).get("name"));
-                                    intent.putExtra("desc", arrayListTopPick.get(sliderPosition).get("description"));
-
-                                    startActivity(intent);
-                                }
-                            });
-                            textSliderView.bundle(new Bundle());
-                            textSliderView.getBundle()
-                                    .putString("extra", name);
-                            sliderLayout.addSlider(textSliderView);
-
                         }
 
                         //Collections.reverse(toppic_arrayList);

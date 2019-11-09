@@ -5,12 +5,12 @@
 
     <VideoView
         android:id="@+id/college_video"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
 
     <WebView
         android:id="@+id/video_webview"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:minHeight="110dp"/>

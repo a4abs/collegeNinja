@@ -232,7 +232,7 @@ public class CollegeDetailsActivity extends BaseActivity {
                         videosList = new ArrayList<>();
                         for (int v = 0; v< videos.length(); v++){
                             JSONObject videoObject = videos.getJSONObject(v);
-                            if(!videoObject.getString("youtube_url").equalsIgnoreCase("null")) {
+                            if(!videoObject.getString("video").equalsIgnoreCase("null")) {
                                 videosList.add(new Videos(videoObject.getInt("id"), videoObject.getString("video"), videoObject.getString("video_path"), videoObject.getString("youtube_url")));
                             }
                         }
