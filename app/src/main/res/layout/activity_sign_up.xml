@@ -18,15 +18,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_margin="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="60dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/logo"/>
+
+            <com.collegeninja.college.utils.TextViewBarlowExtraBold
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/orange"
+                android:textSize="25sp"
+                android:layout_gravity="center_horizontal"
+                android:text="Great!"/>
 
             <TextView
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -34,25 +43,37 @@
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Great!\nBut we want to know\nyou better. Help us out."/>
+                android:text="But we want to know\nyou better. Help us out."/>
 
-
+            <TextView
+                android:layout_gravity="start"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content"
+                android:text="Name*"/>
             <EditText
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
                 android:inputType="text"
-                android:layout_marginTop="25dp"
                 android:padding="10dp"
                 android:maxLength="20"
                 android:minHeight="45dp"
-                android:hint="Enter Name" />
+                />
+
+            <TextView
+                android:layout_gravity="start"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content"
+                android:text="Phone Number*"/>
 
 
             <EditText
                 android:id="@+id/phone"
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
@@ -60,11 +81,19 @@
                 android:padding="10dp"
                 android:maxLength="10"
                 android:minHeight="45dp"
-                android:hint="Enter Phone Number" />
+                />
+
+            <TextView
+                android:layout_gravity="start"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content"
+                android:text="Email ID*"/>
 
             <EditText
                 android:id="@+id/email"
-                android:layout_marginTop="15dp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border"
@@ -72,14 +101,20 @@
                 android:padding="10dp"
                 android:maxLength="50"
                 android:minHeight="45dp"
-                android:hint="Enter Email ID" />
+                 />
 
+            <TextView
+                android:layout_gravity="start"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content"
+                android:text="City*"/>
             <Spinner
                 android:id="@+id/city"
                 style="@style/spinner_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:minHeight="45dp"
                 android:padding="5dp" />
 
@@ -89,8 +124,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:background="@drawable/btn_style"
-                android:textColor="@color/white"
+                android:background="@drawable/btn_style_intro"
+                android:textColor="@drawable/btn_color"
                 android:textStyle="bold"
                 android:text="SUBMIT" />
         </LinearLayout>
