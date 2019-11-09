@@ -41,6 +41,7 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.MyView> {
         final String _name = arrayList.get(position).get("name");
         holder.tv_grade.setText(_name);
 
+
         holder.tv_grade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,7 +49,6 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.MyView> {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putString("grade_id", _id);
                 editor.apply();
-
                 Intent i = new Intent(mcon, SelectStreamActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 mcon.startActivity(i);

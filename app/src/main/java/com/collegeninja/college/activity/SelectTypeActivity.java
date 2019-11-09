@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class SelectTypeActivity extends AppCompatActivity {
 
-    ArrayList<HashMap<String,String>> arrayList;
+    ArrayList<HashMap<String, String>> arrayList;
     private RecyclerView recyclerView;
     private UserTypeAdapter adapter;
 
@@ -36,7 +36,7 @@ public class SelectTypeActivity extends AppCompatActivity {
 
         arrayList = new ArrayList<>();
 
-        recyclerView= findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -46,7 +46,7 @@ public class SelectTypeActivity extends AppCompatActivity {
         loadGradeData();
     }
 
-    void loadGradeData(){
+    void loadGradeData() {
         String url = "http://collegeninja.fdstech.solutions/api/get_usertypes";
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -54,20 +54,20 @@ public class SelectTypeActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
-                    if(success.equals("true")){
+                    if (success.equals("true")) {
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
-                        for(int i = 0; i < jsonArray.length(); i++){
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject _jsonObject = jsonArray.getJSONObject(i);
-                            HashMap<String,String> map = new HashMap<>();
+                            HashMap<String, String> map = new HashMap<>();
                             String id = _jsonObject.getString("id");
                             String name = _jsonObject.getString("name");
 
-                            map.put("id",id);
-                            map.put("name",name);
+                            map.put("id", id);
+                            map.put("name", name);
 
                             arrayList.add(map);
                         }
-                        adapter= new UserTypeAdapter(getApplicationContext(), arrayList);
+                        adapter = new UserTypeAdapter(getApplicationContext(), arrayList);
                         recyclerView.setAdapter(adapter);
                     }
                 } catch (JSONException e) {

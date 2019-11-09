@@ -9,8 +9,13 @@
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/border"
+        android:background="@drawable/btn_style_intro"
+        android:textColor="@drawable/btn_color"
         android:minWidth="250dp"
         android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="CLASS 10" />
+
 </LinearLayout>
