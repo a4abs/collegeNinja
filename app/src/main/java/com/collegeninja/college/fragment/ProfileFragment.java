@@ -46,6 +46,7 @@ import com.collegeninja.college.App;
 import com.collegeninja.college.activity.BaseActivity;
 import com.collegeninja.college.activity.LandingActivity;
 import com.collegeninja.college.activity.MainActivity;
+import com.collegeninja.college.utils.AppConstants;
 import com.collegeninja.college.utils.VolleyMultipartRequest;
 import com.fdscollege.college.R;
 import com.karumi.dexter.Dexter;
@@ -76,7 +77,7 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements AppConstants {
 
     Spinner city, gender, academic_status, domain;
     View view;
@@ -339,7 +340,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadCity() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_cities";
+        String url = ROOT_URL+"/api/get_cities";
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -383,7 +384,7 @@ public class ProfileFragment extends Fragment {
     }
 
     void loadGradeData() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_grades";
+        String url = ROOT_URL+"/api/get_grades";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -433,7 +434,7 @@ public class ProfileFragment extends Fragment {
     }
 
     void loadDomain() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_domains";
+        String url = ROOT_URL+"/api/get_domains";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -481,7 +482,7 @@ public class ProfileFragment extends Fragment {
         requestQueue.add(stringRequest);
     }
  private void loadProfileData() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_user_pref";
+        String url = ROOT_URL+"/api/get_user_pref";
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -615,7 +616,7 @@ public class ProfileFragment extends Fragment {
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(getActivity());
 
-        String url = "http://collegeninja.fdstech.solutions/api/update_user_profile";
+        String url = ROOT_URL+"/api/update_user_profile";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -760,7 +761,7 @@ public class ProfileFragment extends Fragment {
         final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         imageFile.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 
-        String url = "http://collegeninja.fdstech.solutions/api/update_user_profile_pic";
+        String url = ROOT_URL+"/api/update_user_profile_pic";
 
         VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
             @Override
@@ -818,7 +819,7 @@ public class ProfileFragment extends Fragment {
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(getActivity());
 
-        String url = "http://collegeninja.fdstech.solutions/api/update_user_profile_pic";
+        String url = ROOT_URL+"/api/update_user_profile_pic";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

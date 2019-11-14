@@ -14,6 +14,7 @@ import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.adapter.GradeAdapter;
 import com.collegeninja.college.adapter.StreamAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
@@ -23,7 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SelectStreamActivity extends AppCompatActivity {
+public class SelectStreamActivity extends AppCompatActivity implements AppConstants {
 
     ArrayList<HashMap<String,String>> arrayList;
     private RecyclerView recyclerView;
@@ -48,7 +49,7 @@ public class SelectStreamActivity extends AppCompatActivity {
 
 
     void loadGradeData(){
-        String url = "http://collegeninja.fdstech.solutions/api/get_streams";
+        String url = ROOT_URL+"/api/get_streams";
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

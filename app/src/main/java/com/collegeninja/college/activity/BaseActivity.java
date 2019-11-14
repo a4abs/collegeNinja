@@ -37,6 +37,7 @@ import com.collegeninja.college.fragment.CollegesFragment;
 import com.collegeninja.college.fragment.CourseFragment;
 import com.collegeninja.college.fragment.HomeFragment;
 import com.collegeninja.college.fragment.ProfileFragment;
+import com.collegeninja.college.utils.AppConstants;
 import com.collegeninja.college.utils.ShowMessageDialog;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.fdscollege.college.R;
@@ -56,7 +57,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-public class BaseActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener, NavigationView.OnNavigationItemSelectedListener {
+public class BaseActivity extends AppCompatActivity implements MaterialSearchBar.OnSearchActionListener, NavigationView.OnNavigationItemSelectedListener, AppConstants {
 
     MaterialSearchBar mSearchViewHome;
     MeowBottomNavigation bottomNavigation;
@@ -240,7 +241,7 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
     }
 
     private void loadProfileData() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_user_pref";
+        String url = ROOT_URL+"/get_user_pref";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -312,7 +313,7 @@ public class BaseActivity extends AppCompatActivity implements MaterialSearchBar
         dialog.setCanceledOnTouchOutside(false);
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://collegeninja.fdstech.solutions/api/update_user_profile";
+        String url = ROOT_URL+"/update_user_profile";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

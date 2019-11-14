@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.collegeninja.college.App;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONException;
@@ -32,7 +33,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CollegeCourseDetails extends BaseActivity {
+public class CollegeCourseDetails extends BaseActivity implements AppConstants {
     String strCourseId, strCollegeId, strCollegeName, strCourseName, strImageUrl, strEligibility, strDuration, strFees;
     TextView tvHeader;
     ImageView imvHeaderImage;
@@ -87,7 +88,7 @@ public class CollegeCourseDetails extends BaseActivity {
 
     private void fetchCourseDetails(final String collegeId, final String courseId){
         Log.d("Cid csid","===>"+collegeId+"=="+courseId);
-        String url = "http://ninza.fdstech.solutions/api/get_college_course_details";
+        String url = ROOT_URL+"/get_college_course_details";
         dialog = new ProgressDialog(this);
         dialog.setMessage("Please wait...");
         dialog.show();

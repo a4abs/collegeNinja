@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.App;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONException;
@@ -31,7 +32,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OTPGenerationActivity extends AppCompatActivity {
+public class OTPGenerationActivity extends AppCompatActivity implements AppConstants {
     String _name, _user_type, _stream, _email, _mobile, _city;
     EditText otp;
     Button submit_otp;
@@ -105,7 +106,7 @@ public class OTPGenerationActivity extends AppCompatActivity {
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://collegeninja.fdstech.solutions/api/registration_step_2";
+        String url = ROOT_URL+"/api/registration_step_2";
 
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -173,7 +174,7 @@ public class OTPGenerationActivity extends AppCompatActivity {
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://collegeninja.fdstech.solutions/api/resend_otp";
+        String url = ROOT_URL+"/api/resend_otp";
 
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

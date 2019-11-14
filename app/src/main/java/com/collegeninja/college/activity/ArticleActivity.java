@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.adapter.ArticleAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ArticleActivity extends BaseActivity {
+public class ArticleActivity extends BaseActivity implements AppConstants {
 
     RecyclerView articel;
     ArrayList<HashMap<String,String>> arrayListArticles = new ArrayList<>();
@@ -91,7 +92,7 @@ public class ArticleActivity extends BaseActivity {
 
 
     private void loadArticle(String id) {
-        String url = "http://collegeninja.fdstech.solutions/api/get_articles/"+id;
+        String url = ROOT_URL+"/get_articles/"+id;
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

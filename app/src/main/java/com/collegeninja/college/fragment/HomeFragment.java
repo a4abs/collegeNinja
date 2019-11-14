@@ -22,6 +22,7 @@ import com.collegeninja.college.adapter.GridDomainLibrary;
 import com.collegeninja.college.adapter.GridOurLibrary;
 import com.collegeninja.college.adapter.GridTopPicture;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.utils.AppConstants;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -39,7 +40,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements AppConstants {
 
     View view;
 
@@ -102,7 +103,7 @@ public class HomeFragment extends Fragment {
     private void loadOurLibrary() {
         lib_arrayList.clear();
 
-        String url = "http://collegeninja.fdstech.solutions/api/get_libraries";
+        String url = ROOT_URL+"/api/get_libraries";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -166,7 +167,7 @@ public class HomeFragment extends Fragment {
     private void loadDomain() {
         domain_arrayList.clear();
 
-        String url = "http://collegeninja.fdstech.solutions/api/get_domains";
+        String url = ROOT_URL+"/api/get_domains";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -231,7 +232,7 @@ public class HomeFragment extends Fragment {
 
         toppic_arrayList.clear();
 
-        String url = "http://collegeninja.fdstech.solutions/api/get_libraries";
+        String url = ROOT_URL+"/api/get_libraries";
         //String url = "http://collegeninja.fdstech.solutions/api/get_latest_articles";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

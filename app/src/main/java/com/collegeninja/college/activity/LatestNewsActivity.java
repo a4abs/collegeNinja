@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.App;
 import com.collegeninja.college.adapter.ArticleAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LatestNewsActivity extends BaseActivity {
+public class LatestNewsActivity extends BaseActivity implements AppConstants {
 
     RecyclerView rvLatestNews;
     ArrayList<HashMap<String,String>> arrayListArticles = new ArrayList<>();
@@ -60,7 +61,7 @@ public class LatestNewsActivity extends BaseActivity {
     }
 
     private void fetchLatestNews(){
-        String url = "http://collegeninja.fdstech.solutions/api/latest_news";
+        String url = ROOT_URL+"/api/latest_news";
         dialog = new ProgressDialog(this);
         dialog.setMessage("Please wait...");
         dialog.show();

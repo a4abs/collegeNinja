@@ -7,11 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.collegeninja.college.adapter.FullScreenImageAdapter;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import java.util.ArrayList;
 
-public class CollegeGallery extends AppCompatActivity {
+public class CollegeGallery extends AppCompatActivity implements AppConstants {
 
     private static final boolean AUTO_HIDE = true;
 

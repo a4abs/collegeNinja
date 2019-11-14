@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.App;
 import com.collegeninja.college.adapter.CollegeAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CollegeActivity extends BaseActivity {
+public class CollegeActivity extends BaseActivity implements AppConstants {
 
     RecyclerView rvColleges;
     ArrayList<HashMap<String, String>> arrayListColleges = new ArrayList<>();
@@ -55,7 +56,7 @@ public class CollegeActivity extends BaseActivity {
     }
 
     private void fetchColleges() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_all_colleges";
+        String url = ROOT_URL+"/get_all_colleges";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

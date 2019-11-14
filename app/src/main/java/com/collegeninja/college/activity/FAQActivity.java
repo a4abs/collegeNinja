@@ -22,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.adapter.FaqAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FAQActivity extends BaseActivity {
+public class FAQActivity extends BaseActivity implements AppConstants {
 
     RecyclerView faq;
     String token;
@@ -85,7 +86,7 @@ public class FAQActivity extends BaseActivity {
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
 
-        String url = "http://collegeninja.fdstech.solutions/api/get_faqs";
+        String url = ROOT_URL+"/api/get_faqs";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

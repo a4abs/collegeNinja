@@ -40,6 +40,7 @@ import com.collegeninja.college.fragment.CourseFragment;
 import com.collegeninja.college.fragment.DiscussionFragment;
 import com.collegeninja.college.fragment.HomeFragment;
 import com.collegeninja.college.fragment.ProfileFragment;
+import com.collegeninja.college.utils.AppConstants;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.fdscollege.college.R;
 import com.google.android.material.navigation.NavigationView;
@@ -56,7 +57,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-public class MainActivity extends BaseActivity  {
+public class MainActivity extends BaseActivity implements AppConstants {
 
     MaterialSearchBar mSearchViewHome;
     MeowBottomNavigation bottomNavigation;

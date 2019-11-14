@@ -37,11 +37,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.collegeninja.college.App;
 import com.collegeninja.college.fragment.CollegesFragment;
 import com.collegeninja.college.fragment.CourseFragment;
 import com.collegeninja.college.fragment.DiscussionFragment;
 import com.collegeninja.college.fragment.HomeFragment;
 import com.collegeninja.college.fragment.ProfileFragment;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -53,7 +55,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LandingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class LandingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AppConstants {
 
     TextView name, batch;
     String token;
@@ -319,7 +321,7 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
     }
 
     private void loadProfileData() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_profile/";
+        String url = ROOT_URL+"/api/get_profile/";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -390,7 +392,7 @@ public class LandingActivity extends AppCompatActivity implements NavigationView
         dialog.setCanceledOnTouchOutside(false);
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://collegeninja.fdstech.solutions/api/update_user_profile";
+        String url = ROOT_URL+"/api/update_user_profile";
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

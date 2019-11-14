@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.collegeninja.college.adapter.CourseCollegeAdaptor;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
@@ -25,7 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CollegesActivity extends BaseActivity {
+public class CollegesActivity extends BaseActivity implements AppConstants {
 
     private String courseId, courseName, domainName,strColleges;
 

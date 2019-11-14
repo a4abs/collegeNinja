@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.App;
 import com.collegeninja.college.adapter.CollegeAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MyBookmarksActivity extends BaseActivity {
+public class MyBookmarksActivity extends BaseActivity implements AppConstants {
     RecyclerView rvColleges;
     ArrayList<HashMap<String, String>> arrayListColleges = new ArrayList<>();
     TextView header;
@@ -58,7 +59,7 @@ public class MyBookmarksActivity extends BaseActivity {
     }
 
     private void fetchBookmarks() {
-        String url = "http://collegeninja.fdstech.solutions/api/my_bookmarks";
+        String url = ROOT_URL+"/api/my_bookmarks";
         dialog = new ProgressDialog(this);
         dialog.setMessage("Please wait...");
         dialog.show();

@@ -27,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.collegeninja.college.adapter.GradeAdapter;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
@@ -39,7 +40,7 @@ import java.util.Map;
 
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
-public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, AppConstants {
     Button submit;
     EditText name, phone, email;
     private AwesomeValidation mAwesomeValidation;
@@ -107,7 +108,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://collegeninja.fdstech.solutions/api/registration_step_1";
+        String url = ROOT_URL+"/api/registration_step_1";
 
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -184,7 +185,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     private void loadCity() {
-        String url = "http://collegeninja.fdstech.solutions/api/get_cities";
+        String url = ROOT_URL+"/api/get_cities";
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

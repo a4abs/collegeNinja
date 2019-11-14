@@ -18,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.collegeninja.college.adapter.UserTypeAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
@@ -27,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SelectType extends Fragment {
+public class SelectType extends Fragment implements AppConstants {
     View view;
     ArrayList<HashMap<String,String>> arrayList;
     private RecyclerView recyclerView;
@@ -54,7 +55,7 @@ public class SelectType extends Fragment {
     }
 
     void loadGradeData(){
-        String url = "http://collegeninja.fdstech.solutions/api/get_usertypes";
+        String url = ROOT_URL+"/api/get_usertypes";
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

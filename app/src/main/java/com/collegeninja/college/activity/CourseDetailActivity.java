@@ -29,6 +29,7 @@ import com.collegeninja.college.adapter.CourseAdapter;
 import com.collegeninja.college.adapter.CourseDetailAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
 import com.collegeninja.college.model.CourseColleges;
+import com.collegeninja.college.utils.AppConstants;
 import com.fdscollege.college.R;
 
 import org.json.JSONArray;
@@ -41,7 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CourseDetailActivity extends BaseActivity {
+public class CourseDetailActivity extends BaseActivity implements AppConstants {
 
     RecyclerView coursedetail;
     String id, name;
@@ -121,7 +122,7 @@ public class CourseDetailActivity extends BaseActivity {
     }
 
     private void loadCourseDetail(final String id) {
-        String url = "http://collegeninja.fdstech.solutions/api/get_courses/"+id;
+        String url = ROOT_URL+"/api/get_courses/"+id;
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

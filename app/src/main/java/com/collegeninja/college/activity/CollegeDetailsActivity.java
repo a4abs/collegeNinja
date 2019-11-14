@@ -37,6 +37,7 @@ import com.collegeninja.college.adapter.CollegeVideoAdaptor;
 import com.collegeninja.college.adapter.CourseDetailAdapter;
 import com.collegeninja.college.extra.ItemOffsetDecoration;
 import com.collegeninja.college.model.Videos;
+import com.collegeninja.college.utils.AppConstants;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -52,7 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CollegeDetailsActivity extends BaseActivity {
+public class CollegeDetailsActivity extends BaseActivity implements AppConstants {
 
     String _id, _name, _description, _thumb_img, strCollegeName;
     ImageView header_image;
@@ -138,7 +139,7 @@ public class CollegeDetailsActivity extends BaseActivity {
     }
 
     public void expressInterest(final String collegeId, final String expressInterest) {
-        String url = "http://collegeninja.fdstech.solutions/api/express_interest_to_college";
+        String url = ROOT_URL+"/express_interest_to_college";
 
         final StringRequest expInterestCollegeReq = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -190,7 +191,7 @@ public class CollegeDetailsActivity extends BaseActivity {
     }
 
     public void loadCollegeDetails(String collegeId) {
-        String url = "http://collegeninja.fdstech.solutions/api/get_college_details/"+collegeId;
+        String url = ROOT_URL+"/get_college_details/"+collegeId;
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
